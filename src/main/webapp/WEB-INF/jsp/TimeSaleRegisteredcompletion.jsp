@@ -1,65 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ page import= "model.StoreBeans, model.GoodsInfoBeans,java.util.List, java.util.ArrayList" %>
-    
-    <% StoreBeans loginStore = (StoreBeans) session.getAttribute("loginStore"); %>
-    <% ArrayList<GoodsInfoBeans> goodsList = (ArrayList<GoodsInfoBeans>) session.getAttribute("goodsInfoArrayBeans"); %>
+    <%@ page import="model.StoreBeans, model.TimeSaleBeans, model.TimeSaleGoodsBeans" %>
+<% StoreBeans loginStore = (StoreBeans) session.getAttribute("loginStore"); %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>タイムセール登録完了</title>
 <link rel="stylesheet" href="css/style.css?v=1.0">
-<script type="text/javascript" src="js/list.min.js"></script>
-
-<style>
-body{
-	margin:auto;
-}
-	.search-box{
-		margin-bottom: 20px;
-	}
-	input{
-		padding: 10px;
-        border: 1px solid;
-        border-radius:4px;
-	}
-	
-	table{
-		width: 80%;
-		text-align: center;
-		border-collapse: collapse;
-		border-spacing: 0;
-		border: solid 1px #333;
-	}td{
-		border: solid 1px #333;
-		padding: 5px;
-	}th{
-		background: #fff2cc;
-		border: solid 1px #333;
-		padding: 5px;
-		}
-	.search-list_table th.sort {
-	  cursor: pointer;
-	  position: relative;
-	}
-	
-	.search-list_table th.sort::after {
-	  content: '';
-	  margin-left: 10px;
-	  font-size: 16px;
-	}
-	
-	.search-list_table th.sort.desc::after {
-	  content: "▼";
-	}
-	
-	.search-list_table th.sort.asc::after {
-	  content: "▲";
-	}
-
-
-</style>
 </head>
 <body>
 <header>
@@ -113,57 +61,6 @@ body{
     </div>
 </div>
 </header>
-
-<main>
-<h1 class="title">商品情報一覧</h1>
-<div class="contents">
-	<div class="search-list" id="js-search-list">
-		<div class="search-box">
-			<input type="search" class="search" placeholder="検索">
-		</div>
-		
-	
-		<table class="search-list_table">
-			<thead>
-				<tr>
-					<th>販売中</th>
-					<th class="sort" data-sort="day">登録日</th>
-					<th class="sort" data-sort="jan">JANコード</th>
-					<th class="sort" data-sort="goods">商品名</th>
-					<th>メーカー</th>
-					<th>分類</th>
-					<th class="sort" data-sort="price">値段</th>
-				</tr>
-			</thead>
-			<tbody class="list">
-				<% for(GoodsInfoBeans bean : goodsList){ %>
-				<tr>
-					<td></td>
-					<td class="day"><%= bean.getUpdate_date() %></td>
-					<td class="jan"><%= bean.getJan_code() %></td>
-					<td class="goods"><%= bean.getGoods_name() %></td>
-					<td><%= bean.getGoods_marker() %></td>
-					<td><%= bean.getClassification() %></td>
-					<td class="price"><%= bean.getSales_price() %></td>
-					
-				</tr>
-				<% } %>
-			</tbody>
-		</table>
-	</div>
-</div>
-</main>
-<script>
-	const options = {
-		valueNames: [
-			'jan',
-			'goods',
-			'day',
-			'price'
-			],
-		};
-
-	const searchList = new List("js-search-list", options);
-</script>
+<h1>登録しました。</h1>
 </body>
 </html>

@@ -41,9 +41,24 @@ public class TimeSaleBeans implements Serializable {
 		this.timesale_Application_Flag = timesale_Application_Flag;
 		
 	}
-public  TimeSaleBeans(String time_Sale_No, String time_Sale_Name, String year, String month, String day, String day_Of_WeeK, Date start_Time, Date end_Time, String timesale_Application_Flag,int goods_Count) {
+	public  TimeSaleBeans(String time_Sale_No, String time_Sale_Name, String year, String month, String day, String day_Of_WeeK, Date start_Time, Date end_Time, String timesale_Application_Flag,int goods_Count) {
+			
+			this.time_Sale_No = time_Sale_No;
+			this.time_Sale_Name = time_Sale_Name;
+			this.year = year;
+			this.month = month;
+			this.day = day;
+			this.day_Of_Week = day_Of_WeeK;
+			this.start_Time = start_Time;
+			this.end_Time = end_Time;
+			this.timesale_Application_Flag = timesale_Application_Flag;
+			this.goods_Count = goods_Count;
+			
+		}
+	
+	//タイムセール登録で使用
+	public  TimeSaleBeans(String time_Sale_Name, String year, String month, String day, String day_Of_WeeK, Date start_Time, Date end_Time, String store_No, String timesale_Application_Flag) {
 		
-		this.time_Sale_No = time_Sale_No;
 		this.time_Sale_Name = time_Sale_Name;
 		this.year = year;
 		this.month = month;
@@ -51,8 +66,8 @@ public  TimeSaleBeans(String time_Sale_No, String time_Sale_Name, String year, S
 		this.day_Of_Week = day_Of_WeeK;
 		this.start_Time = start_Time;
 		this.end_Time = end_Time;
+		this.store_No = store_No;
 		this.timesale_Application_Flag = timesale_Application_Flag;
-		this.goods_Count = goods_Count;
 		
 	}
 
