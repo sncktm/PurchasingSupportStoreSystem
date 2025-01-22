@@ -23,28 +23,31 @@ import model.TimeSaleGoodsBeans;
 @WebServlet("/TimeSaleDetailServlet")
 public class TimeSaleDetailServlet  extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		ArrayList<TimeSaleDetailBeans> TSGoods_ListArrayBeans = new ArrayList<TimeSaleDetailBeans>();
-//		TimeSaleListDao  timeSaleDetail_dao = new TimeSaleListDao();
-//		
-//	    HttpSession session = request.getSession();
-//	    StoreBeans store = (StoreBeans)session.getAttribute("loginStore");
-//	    String store_no = store.getStore_no();
-//	    
-//	    
-//	    
-//	    session.setAttribute("TimeSaleListArray",TSGoods_ListArrayBeans);
-//	    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/TimeSaleList.jsp");
-//	    dispatcher.forward(request, response);
-	}
- 
-	
+ 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String time_sale_no = request.getParameter("time-sale-No");
 	    System.out.println(time_sale_no);
 	    HttpSession session = request.getSession();
-	    ArrayList<TimeSaleBeans> store = (ArrayList<TimeSaleBeans>)session.getAttribute("TimeSaleListArray");
+	    ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>)session.getAttribute("TimeSaleListArray");	    
+	    
+	  
+	    // 結果を格納する変数
+	    TimeSaleBeans matchedBean = null;
+
+	    // 配列をループして検索
+	    for (TimeSaleBeans bean : TimeSaleListArray) {
+	        if (bean.getTime_Sale_No().equals(time_sale_no)) { // 条件に一致する場合
+	            matchedBean = bean;
+	            break; // 見つけたらループを終了
+	        }
+	    }
+	    // 結果の確認
+	    if (matchedBean != null) {
+	        System.out.println("該当のタイムセール: " + matchedBean);
+	    } else {
+	        System.out.println("該当するタイムセール番号は見つかりませんでした。");
+	    }
+	    session.setAttribute("TimeSaleBean", matchedBean);
 	    
 	    
 		TimeSaleDao  timeSale_dao = new TimeSaleDao();

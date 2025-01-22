@@ -27,7 +27,7 @@
 <header>
 <div class="header-content">
 	<div class="store-name">
-    	ろご
+    	<img alt="" src="images/logo.png" width="50px" height="50px">
     </div>
     <nav>
         <ul class="menu-lists">

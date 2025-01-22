@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import= "model.StoreBeans, model.TimeSaleBeans,java.util.List, java.util.ArrayList" %>
-<% StoreBeans loginStore = (StoreBeans) session.getAttribute("loginStore"); %>
-<% ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.getAttribute("TimeSaleListArray"); %>
+<%@ page import= "model.StoreBeans,model.TimeSaleBeans,java.util.List,java.util.ArrayList, java.sql.Date, java.sql.Time, java.time.DayOfWeek,java.time.LocalDate, java.time.LocalTime, java.time.ZoneId, java.util.Calendar" %>
+<%
+StoreBeans loginStore = (StoreBeans) session.getAttribute("loginStore");
+%>
+<%
+ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.getAttribute("TimeSaleListArray");
+%>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -21,54 +25,38 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
+            margin-bottom: 30px;
         }
         th {
-            background-color: #f5f5f5;
+            background-color: #FFF8DC;
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: center;
         }
-        .button-detail {
-            background-color: #4a90e2;
-            color: white;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 4px;
-            cursor: pointer;
+
+        td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: center;
         }
-        .button-update {
-            background-color: #f5a623;
-            color: white;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .button-container {
-            display: flex;
+       
+       .table-buttons{
+       		display: flex;
             gap: 10px;
             justify-content: center;
-            margin: 20px 0;
-        }
-        .button-register {
-            background-color: #4a90e2;
-            color: white;
+       }
+       
+       .button-container{
+      		display: flex;
+       }
+       .button-container button{}
+       		padding: 10px 40px;
             border: none;
-            padding: 10px 30px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .button-delete {
-            background-color: #d0021b;
+            border-radius: 25px;
             color: white;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 4px;
             cursor: pointer;
-        }
+            font-size: 16px;
+            }
     </style>
 </head>
 <body>
@@ -119,7 +107,7 @@
         </ul>
     </nav>
     <div class="store-name">
-    	<%= loginStore.getStore_name() %>
+    	<%=loginStore.getStore_name()%>
     </div>
 </div>
 </header>
@@ -127,36 +115,109 @@
         
         <h1 class="title">タイムセール一覧</h1>
 
-         <div id="js-search-list">
-	<table class="search-list_table">
-		<tr>
-			<th class="sort" data-sort="day">適用フラグ</th>
-			<th class="sort" data-sort="day">タイムセール名</th>
-			<th class="sort" data-sort="day">日時</th>
-			<th class="sort" data-sort="day">商品点数</th>
-			<th class="sort" data-sort="day"></th>
-			
-			
-			
-			
-		</tr>
-		<% for(TimeSaleBeans bean : TimeSaleListArray){ %>
-		<tr class="list">
-			<td class="day"><%= bean.getTimesale_Application_Flag() %></td>
-			<td class="day"><%= bean.getTime_Sale_Name() %></td>
-			<td class="day"><%= bean.getYear() %>,<%= bean.getMonth() %>,<%= bean.getDay() %>,<%= bean.getDay_Of_Week() %>,<%= bean.getStart_Time() %>,<%= bean.getEnd_Time() %></td>
-			<td class="day"><%= bean.getGoods_Count() %></td>
-			<td class="day"><form action="TimeSaleDetailServlet" method="post"><button value="<%= bean.getTime_Sale_No() %>" name="time-sale-No">詳細</button></form></td>
-			
-			
-		</tr>
-		<% } %>
-	</table>
+		<table>
+			<tr>
+				<th class="sort" data-sort="day">適用</th>
+				<th class="sort" data-sort="day">タイムセール名</th>
+				<th class="sort" data-sort="day">日時</th>
+				<th class="sort" data-sort="day">商品点数</th>
+				<th class="sort" data-sort="day"></th>
+			</tr>
+			<%
+			for(TimeSaleBeans bean : TimeSaleListArray){
+			// タイムセールの開始・終了日時を取得
+	            Date startDate = bean.getStartDate();
+	            Date endDate = bean.getEndDate();
+	            Time startTime = bean.getStartTime();
+	            Time endTime = bean.getEndTime();
+				//TimeをLocalTimeに変換
+	            LocalTime localStartTime = startTime.toLocalTime();
+	            LocalTime localEndTime = endTime.toLocalTime();
+	
+	            // 現在の日時を取得
+	            java.util.Date currentDate = new java.util.Date();
+	            LocalDate localDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	            LocalTime currentTime = LocalTime.now();
+
+	
+	            // タイムセール中かどうかを判定
+	            boolean isInTimeSale = false;
+	            System.out.println("タイムセール中？" + bean.getTimesale_Application_Flag());
+	            if(bean.getTimesale_Application_Flag().equals("on")){
+	            	System.out.println("タイムセール中if");
+		            if ((currentDate.after(startDate) || currentDate.equals(startDate)) &&
+		                (currentDate.before(endDate) || currentDate.equals(endDate))) {
+		            	System.out.println("タイムセール中日にち");
+		            	// タイムセール中かどうかを判定（時間のみ）
+		            	if ((currentTime.isAfter(localStartTime) || currentTime.equals(localStartTime)) &&
+		            	    (currentTime.isBefore(localEndTime) || currentTime.equals(localEndTime))) {
+		            		System.out.println("タイムセール中時間");
+		            	    switch (bean.getRepeatPattern()) {
+		                    case "daily":
+		                    	isInTimeSale = true;
+		                        break;
+		                    case "weekly":
+		                    	//文字列の曜日を配列に分割
+		                    	System.out.println("タイムセール中曜日");
+		                        String[] daysArray = bean.getRepeatValue().split(",");
+		                            DayOfWeek dayOfWeek = localDate.getDayOfWeek();
+		                            for(String day: daysArray) {
+		                            	
+		                            	System.out.println("日" + day);
+		                            	System.out.println(day.equals(dayOfWeek.name().toLowerCase()));
+		                            	
+		                            	if (day.equals(dayOfWeek.name().toLowerCase())) {
+		                            		isInTimeSale = true;
+		            	                    System.out.println("週がtrue");
+		                            	}
+		                            }  
+		                        break;
+		                    case "monthly":
+		                    	
+		                    	Calendar currentCalendar = Calendar.getInstance();
+		                        currentCalendar.setTime(currentDate);
+		                        int currentDay = currentCalendar.get(Calendar.DAY_OF_MONTH);
+		                        int day = Integer.parseInt(bean.getRepeatValue());
+		                    	if (currentDay == day) {
+	                        		isInTimeSale = true;
+	        	                    System.out.println("日付がtrue");
+	                        	}
+		                        break;
+		                    }
+		            	    
+		            	    
+		            	}
+		            	
+		            }	
+		            		
+	            }
+	
+	            // 背景色の適用
+	            String rowClass = isInTimeSale ? "highlight" : "";
+	        %>
+			<tr class="list">
+				<td class="day">
+					<div>
+						<%= bean.getTimesale_Application_Flag() %>
+					</div>
+					<div class="<%= rowClass %>"><%= isInTimeSale ? "タイムセール中" : "終了" %></div>				
+				</td>
+				<td class="day"><%= bean.getTime_Sale_Name() %></td>
+				<td class="day"><%= bean.getStartDate() %> <%= bean.getStartTime() %> ～ <%= bean.getEndDate() %> <%= bean.getEndTime() %></td>
+				<td class="day"><%= bean.getGoods_Count() %></td>
+				<td class="day" class="table-buttons">
+					<form action="TimeSaleDetailServlet" method="post"><button value="<%= bean.getTime_Sale_No() %>" name="time-sale-No" class="button detail-button">詳細</button></form>
+					<form action="TimeSaleDetailServlet" method="post"><button value="<%= bean.getTime_Sale_No() %>" name="time-sale-No" class="button confirmed-button">変更</button></form>
+				</td>
+	
+			</tr>
+			<% } %>
+		</table>
 </div>
 
         <div class="button-container">
-            <button class="button-register">登録</button>
-            <button class="button-delete">削除</button>
+            <button class="cancel-button button">登録</button>
+            <button class="delete-button button">削除</button>
         </div>
     </div>
 </body>

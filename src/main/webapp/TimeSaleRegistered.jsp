@@ -2,7 +2,7 @@
 <%@ page import="java.sql.Date"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.Calendar"%>
-<%@ page import="model.StoreBeans, model.TimeSaleBeans, model.TimeSaleGoodsBeans" %>
+<%@ page import="model.StoreBeans,model.TimeSaleBeans, model.TimeSaleGoodsBeans" %>
 <% StoreBeans loginStore = (StoreBeans) session.getAttribute("loginStore"); %>
 <!DOCTYPE html>
 <html>
@@ -30,8 +30,52 @@
 		border: solid 1px #333;
 		padding: 5px;
 		}
+		
+		.form-section {
+    margin-bottom: 24px;
+}
+
+.section-header {
+    background: var(--color-section-header);
+    padding: 8px;
+    border: 1px solid var(--color-border);
+    margin-bottom: 8px;
+}
+
+.full-width-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+}
+
+.date-time-inputs {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px;
+}
+
+.select-box {
+    padding: 6px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+}
+
+.time-range {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.time-inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 </style>
 <body>
+	
 <header>
 <div class="header-content">
 	<div class="store-name">
@@ -83,63 +127,58 @@
     </div>
 </div>
 </header>
-    <%
-        // Get current date as java.sql.Date
-        java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
-        
-        // Create Calendar instance for date manipulation
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(currentDate);
-        
-        // Format date for display
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = sdf.format(currentDate);
-        
-        // Get individual components
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH) + 1;
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-    %>
 <main>
     <h1 class="title">タイムセール登録</h1>
     
-   <form action="TimeSaleRegisteredservlet" method="post">
-        <div>
-            <input type="checkbox" name="timesale_Application_Flag" checked>
-             <label for="time_Sale_Name">タイムセール名:</label>
-            <input type="text" id="time_Sale_Name" name="time_Sale_Name" required>
-            
-        </div>
+   <form action="TimeSaleRegisteredConfirmServlet" method="post">
         
-        <div>
-            <label>日時:</label>
-            <select name="month">
-                <% for(int i = 1; i <= 12; i++) { %>
-                    <option value="<%= i %>" <%= (i == month) ? "selected" : "" %>><%= i %>月</option>
-                <% } %>
-            </select>
-            
-            <select name="day">
-                <% for(int i = 1; i <= 31; i++) { %>
-                    <option value="<%= i %>" <%= (i == day) ? "selected" : "" %>><%= i %>日</option>
-                <% } %>
-            </select>
-            
-            <input type="radio" id="allDay" name="timeType" value="allDay">
-            <label for="allDay">終日</label>
-            
-            <select name="start_Time">
-                <% for(int i = 0; i < 24; i++) { %>
-                    <option value="<%= i %>"><%= String.format("%02d:00", i) %></option>
-                <% } %>
-            </select>
-            ～
-            <select name="end_Time">
-                <% for(int i = 0; i < 24; i++) { %>
-                    <option value="<%= i %>"><%= String.format("%02d:00", i) %></option>
-                <% } %>
-            </select>
-        </div>
+        <label for="timesale_Application_Flag">適用:</label>
+	    <input type="checkbox" id="timesale_Application_Flag" name="timesale_Application_Flag">
+	
+	    <label for="name">タイムセール名:</label>
+	    <input type="text" id="name" name="name" required>
+	
+	    <label for="start_date">開始日:</label>
+	    <input type="date" id="start_date" name="start_date" required>
+	
+	    <label for="end_date">終了日:</label>
+	    <input type="date" id="end_date" name="end_date" required>
+	
+	    <label for="start_time">開始時間:</label>
+	    <input type="time" id="start_time" name="start_time" required>
+	
+	    <label for="end_time">終了時間:</label>
+	    <input type="time" id="end_time" name="end_time" required>
+	
+	    <label for="repeat">繰り返しパターン:</label>
+	    <select id="repeat" name="repeat">
+		    <option value="daily">毎日</option>
+		    <option value="weekly">毎週</option>
+		    <option value="monthly">毎月</option>
+	    </select>
+	
+	    <!-- 曜日選択（毎週選択時に表示） -->
+		<div class="days-section" style="display: none;">
+		    <label for="days">曜日（毎週の場合のみ選択可能）:</label>
+		    <input type="checkbox" name="days" value="monday">月
+		    <input type="checkbox" name="days" value="tuesday">火
+		    <input type="checkbox" name="days" value="wednesday">水
+		    <input type="checkbox" name="days" value="thursday">木
+		    <input type="checkbox" name="days" value="friday">金
+		    <input type="checkbox" name="days" value="saturday">土
+		    <input type="checkbox" name="days" value="sunday">日
+		</div>
+		
+		<!-- 日にち選択（毎月選択時に表示） -->
+		<div class="date-section" style="display: none;">
+		    <label for="day_of_month">日にち（毎月の場合のみ選択可能）:</label>
+		    <input type="number" id="day_of_month" name="day_of_month" min="1" max="31">
+		</div>
+
+
+        
+        
+        
         
         <table border="1">
             <tr>
@@ -175,21 +214,42 @@
         </table>
         
         <div style="margin-top: 20px; text-align: center;">
-            <button type="submit" class="button confirmed-button">登録する</button>
+            <button type="submit" class="button confirmed-button">確認する</button>
         </div>
     </form>
     
-    <%-- Example of converting form data to java.sql.Date --%>
-    <%!
-        public java.sql.Date createSqlDate(int year, int month, int day) {
-            Calendar cal = Calendar.getInstance();
-            cal.set(year, month - 1, day);
-            return new java.sql.Date(cal.getTimeInMillis());
-        }
-    %>
-    
 </main>
 <script>
+//ページロード時に繰り返しの状態に応じて表示・非表示を設定
+window.onload = function() {
+    toggleRepeatOptions();
+};
+
+// 繰り返しパターンに応じた曜日や日にちの表示制御
+document.getElementById("repeat").addEventListener("change", toggleRepeatOptions);
+
+function toggleRepeatOptions() {
+    const repeatValue = document.getElementById("repeat").value;
+    const daysSection = document.querySelector("label[for='days']").parentNode;
+    const dateSection = document.querySelector("label[for='day_of_month']").parentNode;
+
+    // 曜日チェックボックス（毎週選択時のみ表示）
+    if (repeatValue === "weekly") {
+        daysSection.style.display = "block"; // 毎週の場合は曜日を表示
+    } else {
+        daysSection.style.display = "none"; // その他の場合は曜日を非表示
+    }
+
+    // 日にち選択（毎月選択時のみ表示）
+    if (repeatValue === "monthly") {
+        dateSection.style.display = "block"; // 毎月の場合は日にち入力を表示
+    } else {
+        dateSection.style.display = "none"; // その他の場合は日にち入力を非表示
+    }
+}
+
+
+
 	function fetchGoodsName(input, index) {
 	    const jan_Code = input.value;
 		

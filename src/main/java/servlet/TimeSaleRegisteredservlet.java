@@ -2,7 +2,6 @@ package servlet;
 
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -24,106 +23,93 @@ import model.TimeSaleGoodsBeans;
  * Servlet implementation class TimeSaleRegisteredservlet
  */
 @WebServlet("/TimeSaleRegisteredservlet")
-public class TimeSaleRegisteredservlet extends HttpServlet {
+public class TimeSaleRegisteredServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	
-    	
-
-    }
-       
-
-
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
+    
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // UTF-8 エンコーディング設定
         request.setCharacterEncoding("UTF-8");
+        System.out.println("確認servlet");
         
         HttpSession session = request.getSession();
 	    StoreBeans store = (StoreBeans)session.getAttribute("loginStore");
 	    String store_no = store.getStore_no();
         
-        
-        System.out.println("doPost メソッドが呼び出されました");
         ArrayList<TimeSaleGoodsBeans> TimeSaleGoodsBeansArray  = new ArrayList<TimeSaleGoodsBeans>();
         TimeSaleDao TsRDao = new TimeSaleDao();
         
-        System.out.println("1");
-
-
-        // タイムセールデータを取得
-        String time_Sale_Name = request.getParameter("time_Sale_Name");
-        String year = request.getParameter("year");
-        String month = request.getParameter("month");
-        String day = request.getParameter("day");
-        String day_Of_Week = request.getParameter("day_Of_Week");
-        String t_Time = request.getParameter("t_Time");
-        String e_Time = request.getParameter("e_Time");
-        System.out.println("2");
-        Date start_Time = Date.valueOf("2024-11-20");
-        System.out.println("3");
-        Date end_Time  = Date.valueOf("2024-11-27");
-        System.out.println("4");
-        String timesale_Application_Flag = request.getParameter("timesale_Application_Flag");
+        TimeSaleBeans timeSaleConfirmBeans = (TimeSaleBeans)session.getAttribute("timeSaleConfirmBeans");
+        TimeSaleGoodsBeansArray = (ArrayList<TimeSaleGoodsBeans>)session.getAttribute("TimeSaleGoodsConfirmBeansArray");
         
-        if(timesale_Application_Flag == null) {
-        	timesale_Application_Flag = "a";
+        for (TimeSaleGoodsBeans TimeSaleGoodsBeans : TimeSaleGoodsBeansArray) {
+            System.out.println(TimeSaleGoodsBeans.getGoods_Name());
+            System.out.println(TimeSaleGoodsBeans.getSales_No());
         }
-        TimeSaleBeans timeSaleBeans = new TimeSaleBeans(time_Sale_Name,year,month,day,day_Of_Week,start_Time,end_Time,store_no, timesale_Application_Flag);
-        
-        int time_Sale_No = TsRDao.AddTimesales(timeSaleBeans);
         
         
         
-        //タイムセール商品を取得
-        for(int i = 0; i < 6; i++) {
-            // JANコード取得
-            String sales_No = request.getParameter("sales_No" + i);
-            System.out.println(sales_No);
-            String time_Sales_Prise_Str = request.getParameter("time_Sales_Prise" + i);
-            
-            // JANコードが未入力の場合はスキップ
-            if (sales_No == null || sales_No.isEmpty()) {
-                System.out.println("sales_No" + i + " が空またはnullです");
-                continue;
-            }
-
-            // セール価格が未入力または不正な場合はスキップ
-            int time_Sales_Prise = 0;
-            try {
-                if (time_Sales_Prise_Str == null || time_Sales_Prise_Str.isEmpty()) {
-                    System.out.println("time_Sales_Prise" + i + " が空です");
-                    continue; // スキップ
-                }
-                time_Sales_Prise = Integer.parseInt(time_Sales_Prise_Str);
-            } catch (NumberFormatException e) {
-                System.out.println("数値変換エラー: time_Sales_Prise" + i + " の値が不正です: " + time_Sales_Prise_Str);
-                continue; // 不正なデータの場合もスキップ
-            }
-
-            // チェックボックス（運用フラグ）の取得
-            String timesale_goods_Application_Flag = request.getParameter("timesale_goods_Application_Flag" + i);
-            if (timesale_goods_Application_Flag == null) {
-                timesale_goods_Application_Flag = "b"; // デフォルト値
-            }
-
-            // Beansに格納してArrayListに追加
-            TimeSaleGoodsBeans timeSaleGoodsBeans = new TimeSaleGoodsBeans(
-                time_Sale_No, sales_No, time_Sales_Prise, timesale_goods_Application_Flag
-            );
-            TimeSaleGoodsBeansArray.add(timeSaleGoodsBeans);
-        }
-
-
-        boolean success2 = TsRDao.AddTimesalesgoods(TimeSaleGoodsBeansArray);
+        //タイムセール登録
+        int time_Sale_No = TsRDao.AddTimesales(timeSaleConfirmBeans);
+        
+        
+        
+        //スケジュール
+//        List<LocalDate> dates = new ArrayList<>();
+//        // Date型のデータ (yyyy-MM-dd 形式)
+//        LocalDate startDate = LocalDate.parse(timeSaleConfirmBeans.getStartDate());
+//        LocalDate endDate = LocalDate.parse(timeSaleConfirmBeans.getEndDate());
+//
+//        // Time型のデータ (HH:mm:ss 形式)
+//        LocalTime startTime = LocalTime.parse(timeSaleConfirmBeans.getStartTime());
+//        LocalTime endTime = LocalTime.parse(timeSaleConfirmBeans.getEndTime());
+//        
+//
+//        String repeat = timeSaleConfirmBeans.getRepeatPattern();
+//        
+//        switch (repeat) {
+//        case "daily":
+//            for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+//                dates.add(date);
+//            }
+//            break;
+//        case "weekly":
+//        	//文字列の曜日を配列に分割
+//            String[] daysArray = timeSaleConfirmBeans.getRepeatValue().split(",");
+//            for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+//                DayOfWeek dayOfWeek = date.getDayOfWeek();
+//                for(String day: daysArray) {
+//                	
+//                	System.out.println("日" + day);
+//                	System.out.println(day.equals(dayOfWeek.name().toLowerCase()));
+//                	if (day.equals(dayOfWeek.name().toLowerCase())) {
+//	                    dates.add(date);
+//	                    System.out.println("追加された日付" + date);
+//                	}
+//                }  
+//            }
+//            break;
+//        case "monthly":
+//            for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusMonths(1)) {
+//                dates.add(date);
+//            }
+//            break;
+//        default:
+//            dates.add(startDate); // 繰り返しなしの場合
+//        }
+//        
+//        boolean success1 = TsRDao.AddTimeSaleSchedule(time_Sale_No, startTime, endTime, dates);
+        
+        //ここまで
+        
+        
+        
+        
+        //タイムセール商品登録
+        boolean success2 = TsRDao.AddTimesalesgoods(TimeSaleGoodsBeansArray, time_Sale_No);
         
         System.out.println("5");
+        System.out.println("success:" + success2);
         
         if(success2) {
 			 RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/TimeSaleRegisteredcompletion.jsp");
@@ -132,9 +118,6 @@ public class TimeSaleRegisteredservlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("TimeSaleRegistered.jsp");
 	        dispatcher.forward(request, response);
 		}
-
-
-       // JSPページにフォワード
 	}
 
 }

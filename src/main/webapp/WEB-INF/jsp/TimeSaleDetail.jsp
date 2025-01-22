@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import= "model.StoreBeans, model.TimeSaleGoodsBeans,java.util.List, java.util.ArrayList" %>
-<% StoreBeans loginStore = (StoreBeans) session.getAttribute("loginStore"); %>
+<%@ page import= "model.StoreBeans, model.TimeSaleGoodsBeans,model.TimeSaleBeans,java.util.List,java.util.ArrayList, java.sql.Date, java.sql.Time" %>
+<%
+StoreBeans loginStore = (StoreBeans) session.getAttribute("loginStore");
+%>
+<%
+TimeSaleBeans TimeSaleBean = (TimeSaleBeans) session.getAttribute("TimeSaleBean");
+%>
 <% ArrayList<TimeSaleGoodsBeans> TimeSaleGoodsBeans = (ArrayList<TimeSaleGoodsBeans>) session.getAttribute("TimeSaleGoodsBeans"); %>
 <!DOCTYPE html>
 <html lang="ja">
@@ -18,10 +23,6 @@ body {
 	box-sizing: border-box;
 }
 
-
-main {
-	padding: 20px;
-}
 
 .form-section, .table-section {
 	margin-bottom: 20px;
@@ -53,24 +54,43 @@ th {
 	gap: 20px;
 }
 
-.buttons button {
-	padding: 10px 20px;
-	border: none;
-	color: white;
-	cursor: pointer;
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
 }
 
-.delete-btn {
-	background-color: #ff6347;
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.back-btn {
-	background-color: #4682b4;
+.form-label {
+    font-weight: 500;
+    background-color: #FFF8DC;
+    padding: 0.5rem;
+    border: 1px solid var(--color-border);
 }
 
-.update-btn {
-	background-color: #ffa500;
+.form-input {
+    padding: 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    font-size: 1rem;
 }
+
+.form-input-sm {
+    width: 80px;
+}
+
+.date-time-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 </style>
 </head>
 <body>
@@ -127,17 +147,21 @@ th {
 </header>
 	<main>
 		<h1 class="title">タイムセール詳細</h1>
-		<div class="form-section">
-			<label for="sale-name">タイムセール名</label> <input type="text"
-				id="sale-name"> <label for="date">日時</label> <select
-				id="frequency">
-				<option>毎週</option>
-			</select> <input type="text" placeholder="MM"> <input type="text"
-				placeholder="月"> <input type="text" placeholder="DD">
-			<input type="text" placeholder="日"> <input type="text"
-				placeholder="00:00"> <span>~</span> <input type="text"
-				placeholder="00:00">
+		
+		<div class="form-grid">
+			<div class="form-group">
+                    <label class="form-label">タイムセール名</label>
+                    <p><%= TimeSaleBean.getTime_Sale_Name() %></p>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">日時</label>
+                    <div class="date-time-group">
+                        <p><%= TimeSaleBean.getStartDate() %> <%= TimeSaleBean.getStartTime() %> ～ <%= TimeSaleBean.getEndDate() %> <%= TimeSaleBean.getEndTime() %></p>
+                    </div>
+                </div>
 		</div>
+		
 		<div class="table-section">
 			<table class="search-list_table">
 				<tr>
@@ -167,9 +191,9 @@ th {
 			</table>
 		</div>
 		<div class="buttons">
-			<button class="delete-btn">削除する</button>
-			<button class="back-btn">戻る</button>
-			<button class="update-btn">変更する</button>
+			<button class="button　delete-button">削除する</button>
+			<button class="button　cancel-button">戻る</button>
+			<button class="button confirmed-button">変更する</button>
 		</div>
 	</main>
 </body>
