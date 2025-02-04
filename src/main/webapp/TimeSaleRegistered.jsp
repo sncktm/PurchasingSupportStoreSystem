@@ -181,11 +181,13 @@
   display: block;
   
         }
+        
 
         /* レスポンシブ対応 */
         @media (max-width: 768px) {
             .form-header {
                 flex-direction: column;
+                
             }
 
             .left-section,
@@ -327,10 +329,10 @@
 				    <input type="text" id="jan_Code<%= i %>" name="jan_Code<%= i %>" 
 				           onkeydown="checkEnter(event, this, <%= i %>)">
 				</td>
-                <td> <input type="text" id="Goods_Name<%= i %>" name="Goods_Name<%= i %>" readonly></td>
-                <td> <input type="text" id="Goods_Maker<%= i %>" name="Goods_Maker<%= i %>" readonly></td>
-                <td> <input type="text" id="Classification<%= i %>" name="Classification<%= i %>" readonly></td>
-                <td> <input type="text" id="Sales_Price<%= i %>" name="Sales_Price<%= i %>" readonly></td>
+                <td> <input type="text" id="Goods_Name<%= i %>" name="Goods_Name<%= i %>" readonly disabled></td>
+                <td> <input type="text" id="Goods_Maker<%= i %>" name="Goods_Maker<%= i %>" readonly disabled></td>
+                <td> <input type="text" id="Classification<%= i %>" name="Classification<%= i %>" readonly disabled></td>
+                <td> <input type="text" id="Sales_Price<%= i %>" name="Sales_Price<%= i %>" readonly disabled></td>
                 <td> <input type="text" id="time_Sales_Prise<%= i %>" name="time_Sales_Prise<%= i %>"></td>
                 <input type="hidden" id="sales_No<%= i %>" name="sales_No<%= i %>"/>
 <!--                <td> <input type="text" id="Image<%= i %>" name="Image<%= i %>" readonly></td>-->
