@@ -55,10 +55,6 @@
             </li>
             <li class="menu-list">
                 <a href="#">情報分析</a>
-                <ul class="dropdown-lists">
-                    <li class="dropdown-list"><a href="#">aa</a></li>
-                    <li class="dropdown-list"><a href="#">aa</a></li>
-                </ul>
             </li>
             <li class="menu-list">
                 <a href="#">タイムセール管理</a>

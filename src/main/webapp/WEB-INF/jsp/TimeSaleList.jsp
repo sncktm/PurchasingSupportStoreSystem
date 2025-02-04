@@ -14,49 +14,70 @@ ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.
     <title>タイムセール管理</title>
     <link rel="stylesheet" href="css/style.css?v=1.0">
     <style>
-       
-        .container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-   
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-        }
-        th {
-            background-color: #FFF8DC;
-            border: 1px solid #ccc;
-            padding: 12px;
-            text-align: center;
-        }
 
-        td {
-            border: 1px solid #ccc;
-            padding: 12px;
-            text-align: center;
-        }
+        
+        table{
+        width: 100%;
+		text-align: center;
+		border-collapse: collapse;
+		border-spacing: 0;
+		border: solid 1px #333;
+		}td{
+			border: solid 1px #333;
+			padding: 5px;
+		}th{
+			background: #fff2cc;
+			border: solid 1px #333;
+			padding: 5px;
+			}
+		.time{
+			
+		}
+		
+		.status-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+
+		.status-badge {
+		    background-color: #ddd;
+		    padding: 0.125rem 0.5rem;
+		    border-radius: 5px;
+		    font-size: 0.75rem;
+		    font-weight: 500;
+		}
+		.highlight {
+		    background-color: #FFD700;
+		}
        
-       .table-buttons{
-       		display: flex;
-            gap: 10px;
-            justify-content: center;
-       }
+       .actions {
+		    display: flex;
+		    justify-content:space-around;
+		}
        
        .button-container{
       		display: flex;
+      		justify-content:center;
+      		
+      		
        }
-       .button-container button{}
-       		padding: 10px 40px;
-            border: none;
-            border-radius: 25px;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-            }
+       .button{
+       width:15%;
+       	margin: 40px 50px;
+       }
+       
+       .btn {
+       		color: white;
+		    padding: 0.75rem 2rem;
+		    border-radius: 30px;
+		    border: none;
+		    cursor: pointer;
+		    
+		}
+     
     </style>
 </head>
 <body>
@@ -111,17 +132,19 @@ ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.
     </div>
 </div>
 </header>
+
+<main>
     <div class="container">
         
         <h1 class="title">タイムセール一覧</h1>
 
 		<table>
 			<tr>
-				<th class="sort" data-sort="day">適用</th>
-				<th class="sort" data-sort="day">タイムセール名</th>
-				<th class="sort" data-sort="day">日時</th>
-				<th class="sort" data-sort="day">商品点数</th>
-				<th class="sort" data-sort="day"></th>
+				<th>適用</th>
+				<th>タイムセール名</th>
+				<th>日時</th>
+				<th>商品点数</th>
+				<th>　</th>
 			</tr>
 			<%
 			for(TimeSaleBeans bean : TimeSaleListArray){
@@ -196,29 +219,60 @@ ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.
 	            String rowClass = isInTimeSale ? "highlight" : "";
 	        %>
 			<tr class="list">
-				<td class="day">
-					<div>
-						<%= bean.getTimesale_Application_Flag() %>
+				<td class="status">
+					<div class="status-content">
+						<span><%= bean.getTimesale_Application_Flag() %></span>
+						<span class="status-badge <%= rowClass %>"><%= isInTimeSale ? "タイムセール中" : "終了" %></span>
 					</div>
-					<div class="<%= rowClass %>"><%= isInTimeSale ? "タイムセール中" : "終了" %></div>				
 				</td>
-				<td class="day"><%= bean.getTime_Sale_Name() %></td>
-				<td class="day"><%= bean.getStartDate() %> <%= bean.getStartTime() %> ～ <%= bean.getEndDate() %> <%= bean.getEndTime() %></td>
-				<td class="day"><%= bean.getGoods_Count() %></td>
-				<td class="day" class="table-buttons">
-					<form action="TimeSaleDetailServlet" method="post"><button value="<%= bean.getTime_Sale_No() %>" name="time-sale-No" class="button detail-button">詳細</button></form>
-					<form action="TimeSaleDetailServlet" method="post"><button value="<%= bean.getTime_Sale_No() %>" name="time-sale-No" class="button confirmed-button">変更</button></form>
+				<td class="name"><%= bean.getTime_Sale_Name() %></td>
+				<td class="time">
+					<%= bean.getStartDate() %>  ～ <%= bean.getEndDate() %><br>
+					<%= bean.getStartTime() %> ～ <%= bean.getEndTime() %><br>
+					
+					<% if(bean.getRepeatPattern().equals("daily")){ %>
+						毎日
+					<% }else if(bean.getRepeatPattern().equals("weekly")){ %>
+						毎週：
+						<%
+						String[] daysArray = bean.getRepeatValue().split(",");
+						String japaneseDay = "";
+						for(String day : daysArray){
+							if ("sunday".equals(day)) { japaneseDay = "日曜日"; }
+							else if ("monday".equals(day)) { japaneseDay = "月曜日"; }
+							else if ("tuesday".equals(day)) { japaneseDay = "火曜日"; }
+							else if ("wednesday".equals(day)) { japaneseDay = "水曜日"; }
+							else if ("thursday".equals(day)) { japaneseDay = "木曜日"; }
+							else if ("friday".equals(day)) { japaneseDay = "金曜日"; }
+							else { japaneseDay = "土曜日"; }
+							
+						%>
+						<%= japaneseDay %>
+						<% } %>
+						
+					<% }else{ %>
+						毎月<%= bean.getRepeatValue() %>日
+					<% } %>
+					
 				</td>
-	
+				<td class="count"><%= bean.getGoods_Count() %>点</td>
+				
+				<td class="table-buttons">
+					<div class="actions">
+						<form action="TimeSaleDetailServlet" method="post"><button value="<%= bean.getTime_Sale_No() %>" name="time-sale-No" class="btn detail-button">詳細</button></form>
+						<form action="#" method="post"><button value="<%= bean.getTime_Sale_No() %>" name="time-sale-No" class="btn confirmed-button">変更</button></form>
+					</div>
+				</td>
 			</tr>
 			<% } %>
 		</table>
-</div>
+	</div>
 
         <div class="button-container">
             <button class="cancel-button button">登録</button>
             <button class="delete-button button">削除</button>
         </div>
     </div>
+</main>
 </body>
 </html>

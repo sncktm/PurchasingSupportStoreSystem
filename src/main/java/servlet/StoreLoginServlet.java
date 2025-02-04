@@ -44,7 +44,7 @@ public class StoreLoginServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 		}else {
 			request.setAttribute("errorMsg", "店舗番号またはパスワードが異なります。");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/LoginMismatch.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("StoreLogin.jsp");
 			dispatcher.forward(request, response);
 		}
 	}

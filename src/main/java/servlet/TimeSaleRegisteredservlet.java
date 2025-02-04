@@ -52,59 +52,7 @@ public class TimeSaleRegisteredServlet extends HttpServlet {
         //タイムセール登録
         int time_Sale_No = TsRDao.AddTimesales(timeSaleConfirmBeans);
         
-        
-        
-        //スケジュール
-//        List<LocalDate> dates = new ArrayList<>();
-//        // Date型のデータ (yyyy-MM-dd 形式)
-//        LocalDate startDate = LocalDate.parse(timeSaleConfirmBeans.getStartDate());
-//        LocalDate endDate = LocalDate.parse(timeSaleConfirmBeans.getEndDate());
-//
-//        // Time型のデータ (HH:mm:ss 形式)
-//        LocalTime startTime = LocalTime.parse(timeSaleConfirmBeans.getStartTime());
-//        LocalTime endTime = LocalTime.parse(timeSaleConfirmBeans.getEndTime());
-//        
-//
-//        String repeat = timeSaleConfirmBeans.getRepeatPattern();
-//        
-//        switch (repeat) {
-//        case "daily":
-//            for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
-//                dates.add(date);
-//            }
-//            break;
-//        case "weekly":
-//        	//文字列の曜日を配列に分割
-//            String[] daysArray = timeSaleConfirmBeans.getRepeatValue().split(",");
-//            for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
-//                DayOfWeek dayOfWeek = date.getDayOfWeek();
-//                for(String day: daysArray) {
-//                	
-//                	System.out.println("日" + day);
-//                	System.out.println(day.equals(dayOfWeek.name().toLowerCase()));
-//                	if (day.equals(dayOfWeek.name().toLowerCase())) {
-//	                    dates.add(date);
-//	                    System.out.println("追加された日付" + date);
-//                	}
-//                }  
-//            }
-//            break;
-//        case "monthly":
-//            for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusMonths(1)) {
-//                dates.add(date);
-//            }
-//            break;
-//        default:
-//            dates.add(startDate); // 繰り返しなしの場合
-//        }
-//        
-//        boolean success1 = TsRDao.AddTimeSaleSchedule(time_Sale_No, startTime, endTime, dates);
-        
-        //ここまで
-        
-        
-        
-        
+    
         //タイムセール商品登録
         boolean success2 = TsRDao.AddTimesalesgoods(TimeSaleGoodsBeansArray, time_Sale_No);
         

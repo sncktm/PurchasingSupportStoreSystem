@@ -1,13 +1,21 @@
 @charset "UTF-8";
 
+:root{
+	--primary-color: #2e75b6;
+}
+
 body{
 	margin:auto;
+	overflow-y: scroll;
 }
 main{
 	max-width: 90%;
 	margin:auto;
 }
 
+.errorMsg{
+	color: red;
+}
 
 
 /*機能タイトル(h1)*/
@@ -69,8 +77,13 @@ main{
 	
 /*ヘッダー*/
 header{
-	background-color: #E5F0F8;
-	width: 100%;
+	background-color: #fff;
+		width: 100%;
+		box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
+		border-bottom: 3px solid var(--primary-color);
+		position: -webkit-sticky;
+		  position: sticky;
+		  top: 0;
 }
 .header-content{
 	display: flex;

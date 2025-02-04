@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=1.0">
 <style>
 body{
 	 background-color: #f7f7f7;
@@ -49,10 +49,24 @@ body{
 </style>
 </head>
 <body>
-
+<header>
+<div class="header-content">
+	<div class="store-name">
+    	<img alt="" src="images/logo.png" width="50px" height="50px">
+    </div>
+    <nav>
+        <ul class="menu-lists">
+            
+        </ul>
+    </nav>
+</div>
+</header>
 <div class="login">
 	<h1>ログイン</h1>
 	<form action="StoreLoginServlet" method="post">
+		<% if(errorMsg != null){ %>
+			<p class="errorMsg"><%= errorMsg %></p>
+		<% } %>
 		<div class="group">
 			<label for="no">店舗番号</label>
 			<input type="text" name="no" id="no" placeholder="店舗番号を入力">
@@ -61,9 +75,6 @@ body{
 			<label for="pass">パスワード</label>
 			<input type="password" name="pass" id="pass" placeholder="パスワードを入力">
 		</div>
-	<% if(errorMsg != null){ %>
-	<p><%= errorMsg %></p>
-	<% } %>
 	<input type="submit" value="ログイン" class="button confirmed-button"><br>
 	</form>
 </div>

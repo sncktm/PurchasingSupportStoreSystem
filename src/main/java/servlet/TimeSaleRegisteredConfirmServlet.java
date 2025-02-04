@@ -86,7 +86,7 @@ public class TimeSaleRegisteredConfirmServlet extends HttpServlet {
         TimeSaleBeans timeSaleBeans = new TimeSaleBeans(store_no, time_Sale_Name, sqlStartDate, sqlStartTime, sqlEndDate, sqlEndTime, repeatPattern, repeatValue, timesale_Application_Flag);
         session.setAttribute("timeSaleConfirmBeans", timeSaleBeans);
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 5; i++) {
             String jan_Code = request.getParameter("jan_Code" + i);
             String goods_Name = request.getParameter("Goods_Name" + i);
             String goods_Maker = request.getParameter("Goods_Maker" + i);

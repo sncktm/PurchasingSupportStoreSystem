@@ -7,7 +7,7 @@ StoreBeans loginStore = (StoreBeans) session.getAttribute("loginStore");
 <%
 TimeSaleBeans TimeSaleBean = (TimeSaleBeans) session.getAttribute("TimeSaleBean");
 %>
-<% ArrayList<TimeSaleGoodsBeans> TimeSaleGoodsBeans = (ArrayList<TimeSaleGoodsBeans>) session.getAttribute("TimeSaleGoodsBeans"); %>
+<% ArrayList<TimeSaleGoodsBeans> TimeSaleGoodsBeansArray = (ArrayList<TimeSaleGoodsBeans>) session.getAttribute("TimeSaleGoodsBeans"); %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -16,80 +16,84 @@ TimeSaleBeans TimeSaleBean = (TimeSaleBeans) session.getAttribute("TimeSaleBean"
 <title>タイムセール管理</title>
 <link rel="stylesheet" href="css/style.css?v=1.0">
 <style>
-body {
-	font-family: Arial, sans-serif;
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-
-.form-section, .table-section {
-	margin-bottom: 20px;
-}
-
-.form-section input, .form-section select {
-	padding: 5px;
-	margin-right: 10px;
-}
-
-table {
-	width: 100%;
-	border-collapse: collapse;
-}
-
-th, td {
-	border: 1px solid #000;
-	padding: 10px;
-	text-align: center;
-}
-
-th {
-	background-color: #f0e68c;
-}
-
-.buttons {
-	display: flex;
-	justify-content: center;
-	gap: 20px;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+.form-header {
+    display: flex;
     gap: 2rem;
-    margin-bottom: 2rem;
+}
+
+.timesale-section {
+    background: #f8f9fa;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #aaa;
+}
+
+.left-section {
+    flex: 1.5;
+}
+
+.right-section {
+    flex: 2;
 }
 
 .form-group {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    align-items: center;
+    gap: 1rem;
+    margin: 0.25rem;
 }
 
-.form-label {
-    font-weight: 500;
-    background-color: #FFF8DC;
-    padding: 0.5rem;
-    border: 1px solid var(--color-border);
-}
-
-.form-input {
-    padding: 0.5rem;
-    border: 1px solid var(--color-border);
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-.form-input-sm {
-    width: 80px;
-}
-
-.date-time-group {
+.repeat-section {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 0.25rem;
 }
+
+table {
+    text-align: center;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: solid 1px #333;
+    width: 100%;
+}
+
+td, th {
+    border: solid 1px #333;
+    padding: 5px;
+}
+
+th {
+    background: #fff2cc;
+}
+
+@media (max-width: 768px) {
+    .form-header {
+        flex-direction: column;
+    }
+
+    .left-section,
+    .right-section {
+        width: 100%;
+    }
+}
+
+
+	.button-container{
+      		display: flex;
+      		justify-content:center;
+       }
+       .button{
+       width:15%;
+       	margin: 40px 30px;
+       }
 
 </style>
 </head>
@@ -148,53 +152,103 @@ th {
 	<main>
 		<h1 class="title">タイムセール詳細</h1>
 		
-		<div class="form-grid">
-			<div class="form-group">
-                    <label class="form-label">タイムセール名</label>
-                    <p><%= TimeSaleBean.getTime_Sale_Name() %></p>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">日時</label>
-                    <div class="date-time-group">
-                        <p><%= TimeSaleBean.getStartDate() %> <%= TimeSaleBean.getStartTime() %> ～ <%= TimeSaleBean.getEndDate() %> <%= TimeSaleBean.getEndTime() %></p>
-                    </div>
-                </div>
+		<div class="form-container">
+		<div class="form-header">
+			<div class="timesale-section left-section">
+				<div class="form-group">
+					<label for="name">タイムセール名:</label>
+					<%= TimeSaleBean.getTime_Sale_Name() %>
+				</div>
+				<div class="form-group">
+					<label for="timesale_Application_Flag">適用:</label>
+					<%= TimeSaleBean.getTimesale_Application_Flag() %>
+				</div>
+			</div>
+	
+			<div class="timesale-section right-section">
+				<div class="form-group">
+					<label for="se_date">開始日 ～ 終了日：</label>
+					<%= TimeSaleBean.getStartDate() %>
+					 ～ 
+					<%= TimeSaleBean.getEndDate() %>
+				</div>
+	            
+				<div class="repeat-section">
+					<label for="repeat">繰り返し：</label>
+	                
+					<% if(TimeSaleBean.getRepeatPattern().equals("daily")){ %>
+						<p>毎日</p>
+					<% }else if(TimeSaleBean.getRepeatPattern().equals("weekly")){ %>
+						<p>毎週　
+						<%
+						String[] daysArray = TimeSaleBean.getRepeatValue().split(",");
+						String japaneseDay = "";
+						for(String day : daysArray){
+							if ("sunday".equals(day)) { japaneseDay = "日曜日"; }
+							else if ("monday".equals(day)) { japaneseDay = "月曜日"; }
+							else if ("tuesday".equals(day)) { japaneseDay = "火曜日"; }
+							else if ("wednesday".equals(day)) { japaneseDay = "水曜日"; }
+							else if ("thursday".equals(day)) { japaneseDay = "木曜日"; }
+							else if ("friday".equals(day)) { japaneseDay = "金曜日"; }
+							else { japaneseDay = "土曜日"; }
+							
+						%>
+						<%= japaneseDay %></p>
+						<% } %>
+						
+					<% }else{ %>
+						<p>毎月<%= TimeSaleBean.getRepeatValue() %>日</p>
+					<% } %>
+				</div>
+	
+				<div class="form-group">
+					<label for="se_time">開始時間 ～ 終了時間：</label>
+					<%= TimeSaleBean.getStartTime() %>
+					 ～ 
+					<%= TimeSaleBean.getEndTime() %>
+				</div>
+			</div>
 		</div>
+		<table border="1">
+			<tr>
+			    <th>適用</th>
+			    <th>JANコード</th>
+			    <th>商品名</th>
+			    <th>メーカー</th>
+			    <th>分類</th>
+			    <th>通常価格</th>
+			    <th>セール価格</th>
+			</tr>
+			<%
+			    if (TimeSaleGoodsBeansArray != null && !TimeSaleGoodsBeansArray.isEmpty()) {
+			        for (TimeSaleGoodsBeans goods : TimeSaleGoodsBeansArray) {
+			%>
+			<tr>
+			    <td><%= goods.getTimesale_goods_Application_Flag() %></td>
+			    <td><%= goods.getJan_code() %></td>
+			    <td><%= goods.getGoods_Name() %></td>
+			    <td><%= goods.getGoods_Maker() %></td>
+			    <td><%= goods.getClassification() %></td>
+			    <td><%= goods.getSales_Price() %></td>
+			    <td><%= goods.getTime_Sales_Prise() %></td>
+			</tr>
+			<%
+			        }
+			    } else {
+			%>
+			<tr>
+			    <td colspan="7">対象商品がありません。</td>
+			</tr>
+			<% } %>
+		</table>
+    </div>
 		
-		<div class="table-section">
-			<table class="search-list_table">
-				<tr>
-				    <th class="sort" data-sort="day">適用フラグ</th>
-					<th class="sort" data-sort="day">JANコード</th>
-					<th class="sort" data-sort="day">商品名</th>
-					<th class="sort" data-sort="day">メーカー</th>
-					<th class="sort" data-sort="day">分類</th>
-					<th class="sort" data-sort="day">値段</th>
-					<th class="sort" data-sort="day">セール価格</th>
-					<th class="sort" data-sort="day">画像</th>
-				</tr>
-				<%
-				for (TimeSaleGoodsBeans bean : TimeSaleGoodsBeans) {
-				%>
-				<tr class="list">
-				    <td class="day"><%=bean.getTimesale_goods_Application_Flag()%></td>
-					<td class="day"><%=bean.getJan_code()%>
-					<td class="day"><%=bean.getGoods_Name()%></td>
-					<td class="day"><%=bean.getGoods_Maker()%></td>
-					<td class="day"><%=bean.getClassification()%></td>
-					<td class="day"><%=bean.getTime_Sales_Prise()%></td>
-					<td class="day"><%=bean.getSales_Price()%></td>
-					<td class="day"><%=bean.getImage()%></td>
-				</tr>
-				<% } %>
-			</table>
-		</div>
-		<div class="buttons">
-			<button class="button　delete-button">削除する</button>
-			<button class="button　cancel-button">戻る</button>
+		
+		<div class="button-container">
+            <button class="button delete-button">削除する</button>
+			<button class="button cancel-button" onclick="history.back()">戻る</button>
 			<button class="button confirmed-button">変更する</button>
-		</div>
+        </div>
 	</main>
 </body>
 
