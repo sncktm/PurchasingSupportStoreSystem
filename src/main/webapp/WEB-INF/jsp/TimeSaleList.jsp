@@ -84,7 +84,7 @@ ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.
 <header>
 <div class="header-content">
 	<div class="store-name">
-    	ろご
+    	<img alt="" src="images/logo.png" width="50px" height="50px">
     </div>
     <nav>
         <ul class="menu-lists">
@@ -112,10 +112,6 @@ ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.
             </li>
             <li class="menu-list">
                 <a href="#">情報分析</a>
-                <ul class="dropdown-lists">
-                    <li class="dropdown-list"><a href="#">aa</a></li>
-                    <li class="dropdown-list"><a href="#">aa</a></li>
-                </ul>
             </li>
             <li class="menu-list">
                 <a href="#">タイムセール管理</a>
@@ -128,7 +124,7 @@ ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.
         </ul>
     </nav>
     <div class="store-name">
-    	<%=loginStore.getStore_name()%>
+    	<%= loginStore.getStore_name() %>
     </div>
 </div>
 </header>

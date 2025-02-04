@@ -101,7 +101,7 @@ th {
 <header>
 <div class="header-content">
 	<div class="store-name">
-    	ろご
+    	<img alt="" src="images/logo.png" width="50px" height="50px">
     </div>
     <nav>
         <ul class="menu-lists">
@@ -129,10 +129,6 @@ th {
             </li>
             <li class="menu-list">
                 <a href="#">情報分析</a>
-                <ul class="dropdown-lists">
-                    <li class="dropdown-list"><a href="#">aa</a></li>
-                    <li class="dropdown-list"><a href="#">aa</a></li>
-                </ul>
             </li>
             <li class="menu-list">
                 <a href="#">タイムセール管理</a>
