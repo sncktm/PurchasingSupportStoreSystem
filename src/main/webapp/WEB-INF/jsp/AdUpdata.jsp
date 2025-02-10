@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.List"%>
 <%@ page import="model.AdgoodsBeans"%>
+<%@ page import= "model.StoreBeans" %>
+<% StoreBeans loginStore = (StoreBeans) session.getAttribute("loginStore"); %>
 <!DOCTYPE html>
 <html>
 <head>

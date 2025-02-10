@@ -104,7 +104,7 @@ public class AdCreationServlet extends HttpServlet {
 	    boolean ans = dao.sdRegist(Store_No, Advertisement_type, Advertisement_Image, Advertisement_Explanation, Advertisement_title, Advertisement_priority, Sales_No);
 	    
 	    if(ans == true) {
-	    	
+	    	session.setAttribute("successMessage", "登録が完了しました");
 	    	RequestDispatcher dispatcher1 = request.getRequestDispatcher("AdvertisementViewServlet");
 			dispatcher1.forward(request, response);
 	    }else {

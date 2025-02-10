@@ -38,7 +38,7 @@ public class AdvertisementViewServlet extends HttpServlet {
 	    	response.sendRedirect(request.getContextPath() + "/StoreLogin.jsp");
 		    return;
 		}
-		
+	    
 		String Store_No = store.getStore_no();
 		
 		AdvertisementDao dao = new AdvertisementDao();
@@ -62,9 +62,7 @@ public class AdvertisementViewServlet extends HttpServlet {
 //
         // 件数をリクエスト属性にセット
         request.setAttribute("dataCount", dataCount);
-        
-        
-		
+
 		
 		RequestDispatcher dispatcher1 = request.getRequestDispatcher("/WEB-INF/jsp/AdvertisementView.jsp");
 		dispatcher1.forward(request, response);

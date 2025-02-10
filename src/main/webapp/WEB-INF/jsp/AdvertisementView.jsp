@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import= "model.StoreBeans" %>
+    <% StoreBeans loginStore = (StoreBeans) session.getAttribute("loginStore"); %>
+    <% String successMessage = (String) session.getAttribute("successMessage"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -128,6 +131,9 @@ button:focus {
     text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3); /* 影の強調 */
     transform: scale(1.05); /* 少し拡大するアニメーション */
 }
+
+
+
 
 
 </style>
@@ -261,6 +267,30 @@ button:focus {
 			</form>
 
 		</div>
-	</main>
+		
+		
+		<!-- 完了通知モーダル -->
+    <div id="completionModal" class="modal">
+      <div class="modal-content completion">
+        <h2><%= successMessage %></h2>
+        <button onclick="closeCompletionModal()" class="class="button confirmed-button"">閉じる</button>
+      </div>
+    </div>
+</main>
+<script>
+	const completionModal = document.getElementById('completionModal');
+	
+	<% System.out.println("メッセージ" + successMessage); %>
+
+	<% if (successMessage != null && !successMessage.isEmpty()) { %>
+		completionModal.style.display = "flex";
+	<% } %>
+	
+	//完了モーダルを閉じる
+	function closeCompletionModal() {
+	  completionModal.style.display = "none";
+	  <% session.removeAttribute("successMessage"); %>  ポップアップ後にメッセージをクリア 
+	}
+</script>
 </body>
 </html>
