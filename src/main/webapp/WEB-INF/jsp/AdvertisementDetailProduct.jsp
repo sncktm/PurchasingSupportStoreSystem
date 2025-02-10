@@ -1,6 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import= "model.StoreBeans" %>
-<% StoreBeans loginStore = (StoreBeans) session.getAttribute("loginStore"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -233,10 +231,10 @@ table th {
 </style>
 </head>
 <body>
-   <header>
+<header>
 <div class="header-content">
 	<div class="store-name">
-    	ろご
+    	<img alt="" src="images/logo.png" width="50px" height="50px">
     </div>
     <nav>
         <ul class="menu-lists">
@@ -257,23 +255,17 @@ table th {
             <li class="menu-list">
                 <a href="#">広告管理</a>
                 <ul class="dropdown-lists">
-                    <li class="dropdown-list"><a href="#">広告情報登録</a></li>
-                    <li class="dropdown-list"><a href="#">広告情報変更・削除</a></li>
-                    <li class="dropdown-list"><a href="AdvertisementViewServlet">広告情報閲覧</a></li>
+                    <li class="dropdown-list"><a href="AdselectServlet">広告情報登録</a></li>
+                    <li class="dropdown-list"><a href="AdvertisementViewServlet">広告情報一覧</a></li>
                 </ul>
             </li>
             <li class="menu-list">
                 <a href="#">情報分析</a>
-                <ul class="dropdown-lists">
-                    <li class="dropdown-list"><a href="#">aa</a></li>
-                    <li class="dropdown-list"><a href="#">aa</a></li>
-                </ul>
             </li>
             <li class="menu-list">
                 <a href="#">タイムセール管理</a>
                 <ul class="dropdown-lists">
                     <li class="dropdown-list"><a href="TimeSaleRegistered.jsp">タイムセール登録</a></li>
-                    <li class="dropdown-list"><a href="#">タイムセール変更・削除</a></li>
                     <li class="dropdown-list"><a href="TimeSaleListServlet">タイムセール一覧</a></li>
                 </ul>
             </li>
@@ -284,6 +276,7 @@ table th {
     </div>
 </div>
 </header>
+
     <div class="container">
         <div class="section-title">広告の詳細</div>
         <%
@@ -346,13 +339,13 @@ table th {
 			</script>
             
             <div class="photo-section">
-                <img src="<%= request.getContextPath() + "/images/" + store.getAdvertisement_Image() %>" alt="広告画像"id="photo" />
+                <img src="images/advertisement/<%= store.getAdvertisement_Image() %>" alt="広告画像"id="photo" />
             </div>
             <!-- ポップアップ用のオーバーレイ -->
     		<div id="popup" class="popup-overlay">
         		<div class="popup-content">
             		<span class="close-btn" id="close-btn">&times;</span>
-            		<img src="<%= request.getContextPath() + "/images/" + store.getAdvertisement_Image() %>" alt="拡大写真" id="popup-image">
+            		<img src="images/advertisement/<%= store.getAdvertisement_Image() %>" alt="拡大写真" id="popup-image">
         		</div>
     		</div>
 
@@ -360,11 +353,21 @@ table th {
             <div class="right-section">
                 <div>
                     <label class="label" for="banner">バナーの種類</label>
-                    <select id="banner" name="banner">
-                        <option value="大">大</option>
-                        <option value="中">中</option>
-                        <option value="タイムセール">タイムセール</option>
-                    </select>
+                    <div class="data-box">
+                <%
+                    String adpriority = store.getAdvertisement_priority();
+                    String adpriorityLabel = "";
+
+                    if ("1".equals(adType)) {
+                    	adpriorityLabel = "大";
+                    } else if ("2".equals(adType)) {
+                    	adpriorityLabel = "中";
+                    } else if ("3".equals(adType)) {
+                        adpriorityLabel = "タイムセール";
+                    }
+                %>
+                <%= adpriorityLabel %>
+            </div>
                 </div>
                 
                 <div class="parent-container">
@@ -382,68 +385,73 @@ table th {
             }
         %>
         <br><br>
-        
-        <div class="section">	
-        	<div class="section-title">広告商品の登録</div>
-        		<form class="product-form">
-    <label for="product-name" class="label">商品名</label>
-    <div class="form-row">
-        <input type="text" id="product-name" name="product-name" value="商品2">
-        <button type="button" class="confirm">決定</button>
-    </div>
-</form>
-				<br><br>
-				
 
-        		<div class="table-container">
-        		<%
+		<div class="section">
+			<div class="section-title">広告商品の登録</div>
+							<%
 				// サーブレットから受け取ったデータを取得
 				java.util.List<model.AdvertisementManagementBeans> ProductArray = 
 				(java.util.List<model.AdvertisementManagementBeans>) request.getAttribute("ProductArray");
 
 				if (ProductArray != null && !ProductArray.isEmpty()) {
 				%>
-        		
-        		
-            		<table>
-                		<thead>
-                    		<tr>
-                        		<th>商品名</th>
-                        			<th>メーカー</th>
-                        			<th>分類</th>
-			                        <th>値段</th>
-			                        <th>画像</th>
-                    		</tr>
-                		</thead>
-                		<tbody>
-                		<%
+			<form class="product-form">
+									<%
 						for (model.AdvertisementManagementBeans sales : ProductArray) {
 						%>
-                    		<tr>
-                        		<td><%= sales.getGoods_Name() %></td>
-                        		<td><%= sales.getGoods_Maker() %></td>
-                        		<td><%= sales.getClassification() %></td>
-                        		<td><%= sales.getSales_Price() %></td>
-                        		<td>アップロード済み</td>
-                    		</tr>
-                    	<%
+				<label for="product-name" class="label">商品名</label>
+				<div class="form-row">
+					<input type="text" id="product-name" name="product-name"
+						value="<%= sales.getGoods_Name() %>">
+					<button type="button" class="confirm">決定</button>
+				</div>
+			</form>
+			<br>
+			<br>
+
+
+			<div class="table-container">
+
+
+
+				<table>
+					<thead>
+						<tr>
+							<th>商品名</th>
+							<th>メーカー</th>
+							<th>分類</th>
+							<th>値段</th>
+							<th>画像</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr>
+							<td><%= sales.getGoods_Name() %></td>
+							<td><%= sales.getGoods_Maker() %></td>
+							<td><%= sales.getClassification() %></td>
+							<td><%= sales.getSales_Price() %></td>
+							<td>アップロード済み</td>
+						</tr>
+						<%
 						}
 						%>
-                		</tbody>
-            		</table>
-            		<%
+					</tbody>
+				</table>
+				<%
 		} else {
 	%>
-		<p class="no-data">広告の詳細データが存在しません。</p>
-	<%
+				<p class="no-data">広告の詳細データが存在しません。</p>
+				<%
 		}
 	%>
-        		</div>
-    		</div>
+			</div>
+		</div>
+	</div>
+	
 
-    <div class="button-container">
+	<div class="button-container">
         <button type="button" class="back" onclick="history.back();">戻る</button>
-        <button type="button" class="change">変更へ</button>
     </div>
 </body>
 </html>

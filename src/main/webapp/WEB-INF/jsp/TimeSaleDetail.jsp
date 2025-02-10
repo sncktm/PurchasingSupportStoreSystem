@@ -122,9 +122,8 @@ th {
             <li class="menu-list">
                 <a href="#">広告管理</a>
                 <ul class="dropdown-lists">
-                    <li class="dropdown-list"><a href="#">広告情報登録</a></li>
-                    <li class="dropdown-list"><a href="#">広告情報変更・削除</a></li>
-                    <li class="dropdown-list"><a href="AdvertisementViewServlet">広告情報閲覧</a></li>
+                    <li class="dropdown-list"><a href="AdselectServlet">広告情報登録</a></li>
+                    <li class="dropdown-list"><a href="AdvertisementViewServlet">広告情報一覧</a></li>
                 </ul>
             </li>
             <li class="menu-list">
@@ -134,7 +133,6 @@ th {
                 <a href="#">タイムセール管理</a>
                 <ul class="dropdown-lists">
                     <li class="dropdown-list"><a href="TimeSaleRegistered.jsp">タイムセール登録</a></li>
-                    <li class="dropdown-list"><a href="#">タイムセール変更・削除</a></li>
                     <li class="dropdown-list"><a href="TimeSaleListServlet">タイムセール一覧</a></li>
                 </ul>
             </li>

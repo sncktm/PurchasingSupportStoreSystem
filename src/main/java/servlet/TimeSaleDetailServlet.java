@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.TimeSaleDao;
+import model.StoreBeans;
 import model.TimeSaleBeans;
 import model.TimeSaleGoodsBeans;
 
@@ -28,6 +29,12 @@ public class TimeSaleDetailServlet  extends HttpServlet {
 		String time_sale_no = request.getParameter("time-sale-No");
 	    System.out.println(time_sale_no);
 	    HttpSession session = request.getSession();
+	    StoreBeans store = (StoreBeans)session.getAttribute("loginStore");
+	    if (store == null) {
+	    	request.setAttribute("errorMsg", "セッションの有効期限が切れました。再度ログインしてください。");
+	    	response.sendRedirect(request.getContextPath() + "/StoreLogin.jsp");
+		    return;
+		}
 	    ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>)session.getAttribute("TimeSaleListArray");	    
 	    
 	  

@@ -32,7 +32,7 @@ public class TimeSaleListServlet  extends HttpServlet {
 	    StoreBeans store = (StoreBeans)session.getAttribute("loginStore");
 	    if (store == null) {
 	    	request.setAttribute("errorMsg", "セッションの有効期限が切れました。再度ログインしてください。");
-		    response.sendRedirect("/StoreLogin.jsp"); // ログイン画面にリダイレクト
+	    	response.sendRedirect(request.getContextPath() + "/StoreLogin.jsp");
 		    return;
 		}
 	    String store_no = store.getStore_no();

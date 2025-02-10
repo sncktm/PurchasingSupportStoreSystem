@@ -1,7 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import= "model.StoreBeans" %>
-<% StoreBeans loginStore = (StoreBeans) session.getAttribute("loginStore"); %>
-<% String uploadPath = (String) session.getAttribute("uploadPath"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -321,7 +318,6 @@ button.change:hover {
 
             <!-- 右側：バナー選択とボタン -->
             <div class="right-section">
-                <div>
                     <label class="label" for="banner">バナーの種類</label>
                     <div class="data-box">
                 <%
@@ -338,7 +334,6 @@ button.change:hover {
                 %>
                 <%= adpriorityLabel %>
             </div>
-                </div>
                 
                 <div class="parent-container">
                 	<button type="button" class="upload">アップロード</button>
@@ -357,7 +352,22 @@ button.change:hover {
     </div>
 
     <div class="button-container">
-        <button type="button" class="back" onclick="history.back();">戻る</button>
-    </div>
+    <button type="button" class="back" onclick="history.back();">戻る</button>
+    
+    <!-- 削除用フォーム -->
+    <form id="deleteForm" action="DeleteAdvertiseServlet" method="post" style="display: inline;">
+        <input type="hidden" name="advertisementNo" value="<%= store.getAdvertisement_No() %>">
+        <input type="hidden" name="ad-type"
+			    value="<%= store.getAdvertisement_type() %>">
+        <button type="submit" class="change" onclick="return confirmDelete();">削除</button>
+    </form>
+</div>
+
+<script>
+    function confirmDelete() {
+        return confirm("本当に削除しますか？");
+    }
+</script>
+
 </body>
 </html>

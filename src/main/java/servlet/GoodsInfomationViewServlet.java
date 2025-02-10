@@ -28,25 +28,12 @@ public class GoodsInfomationViewServlet extends HttpServlet {
 		GoodsDao goods_dao = new GoodsDao();
 	    HttpSession session = request.getSession();
 	    StoreBeans store = (StoreBeans)session.getAttribute("loginStore");
+	    if (store == null) {
+	    	request.setAttribute("errorMsg", "セッションの有効期限が切れました。再度ログインしてください。");
+	    	response.sendRedirect(request.getContextPath() + "/StoreLogin.jsp");
+		    return;
+		}
 	    String store_no = store.getStore_no();
-	    
-	    goodsInfoArrayBeans = goods_dao.findAll(store_no);
-	    session.setAttribute("goodsInfoArrayBeans", goodsInfoArrayBeans);
-	    
-	    if(goodsInfoArrayBeans == null) {
-	    	goodsInfoArrayBeans = new ArrayList<>();
-	    	session.setAttribute("goodsInfoArrayBeans", goodsInfoArrayBeans);
-	    }
-	    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/GoodsInfomationView.jsp");
-	    dispatcher.forward(request, response);
-	}
-
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<GoodsInfoBeans> goodsInfoArrayBeans = new ArrayList<GoodsInfoBeans>();
-		GoodsDao goods_dao = new GoodsDao();
-	    HttpSession session = request.getSession();
-	    String store_no = (String)session.getAttribute("loginStore");
 	    
 	    goodsInfoArrayBeans = goods_dao.findAll(store_no);
 	    session.setAttribute("goodsInfoArrayBeans", goodsInfoArrayBeans);

@@ -20,6 +20,7 @@ import model.StoreBeans;
 /**
  * Servlet implementation class AdvertisementViewServlet
  */
+//広告閲覧
 @WebServlet("/AdvertisementViewServlet")
 public class AdvertisementViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -32,29 +33,32 @@ public class AdvertisementViewServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 	    StoreBeans store = (StoreBeans)session.getAttribute("loginStore");
-	    String store_no = store.getStore_no();
+	    if (store == null) {
+	    	request.setAttribute("errorMsg", "セッションの有効期限が切れました。再度ログインしてください。");
+	    	response.sendRedirect(request.getContextPath() + "/StoreLogin.jsp");
+		    return;
+		}
 		
+		String Store_No = store.getStore_no();
 		
 		AdvertisementDao dao = new AdvertisementDao();
 		
-		ArrayList<AdCommodityBeans> advertise = dao.findAll(store_no);
+		ArrayList<AdCommodityBeans> advertise = dao.findAll(Store_No);
 		
 		session.setAttribute("advertise", advertise);
 		
 		// データ件数を取得
 		
 
-        int dataCount = dao.getDataCount(store_no);
+        int dataCount = dao.getDataCount(Store_No);
         
-        System.out.println("datacount:" + dataCount);
+        int advertisementMax = dao.adMax(Store_No);
         
-        
-        
-        int advertisementMax = dao.adMax(store_no);
+        session.setAttribute("dataCount", dataCount);
         
         dataCount = advertisementMax - dataCount;
         
-        System.out.print("advertisementMax" + advertisementMax);
+        System.out.print(advertisementMax);
 //
         // 件数をリクエスト属性にセット
         request.setAttribute("dataCount", dataCount);

@@ -105,9 +105,8 @@ ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.
             <li class="menu-list">
                 <a href="#">広告管理</a>
                 <ul class="dropdown-lists">
-                    <li class="dropdown-list"><a href="#">広告情報登録</a></li>
-                    <li class="dropdown-list"><a href="#">広告情報変更・削除</a></li>
-                    <li class="dropdown-list"><a href="AdvertisementViewServlet">広告情報閲覧</a></li>
+                    <li class="dropdown-list"><a href="AdselectServlet">広告情報登録</a></li>
+                    <li class="dropdown-list"><a href="AdvertisementViewServlet">広告情報一覧</a></li>
                 </ul>
             </li>
             <li class="menu-list">
@@ -117,7 +116,6 @@ ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.
                 <a href="#">タイムセール管理</a>
                 <ul class="dropdown-lists">
                     <li class="dropdown-list"><a href="TimeSaleRegistered.jsp">タイムセール登録</a></li>
-                    <li class="dropdown-list"><a href="#">タイムセール変更・削除</a></li>
                     <li class="dropdown-list"><a href="TimeSaleListServlet">タイムセール一覧</a></li>
                 </ul>
             </li>
@@ -265,7 +263,7 @@ ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.
 	</div>
 
         <div class="button-container">
-            <button class="cancel-button button">登録</button>
+            <button class="cancel-button button"><a href="TimeSaleRegistered.jsp">登録</a></button>
             <button class="delete-button button">削除</button>
         </div>
     </div>

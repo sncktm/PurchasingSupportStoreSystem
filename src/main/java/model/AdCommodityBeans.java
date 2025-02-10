@@ -8,8 +8,9 @@ public class AdCommodityBeans {
 	private String Advertisement_Image;
 	private String Advertisement_Explanation;
 	private String Advertisement_title;
+	private String Advertisement_priority;
 	
-	public AdCommodityBeans (String Advertisement_No ,String Store_No, String Advertisement_type, String Advertisement_Image, String Advertisement_Explanation, String Advertisement_title) {
+	public AdCommodityBeans (String Advertisement_No ,String Store_No, String Advertisement_type, String Advertisement_Image, String Advertisement_Explanation, String Advertisement_title, String Advertisement_priority) {
 		
 		this.Advertisement_No = Advertisement_No;
 		this.Store_No = Store_No;
@@ -17,7 +18,9 @@ public class AdCommodityBeans {
 		this.Advertisement_Image = Advertisement_Image;
 		this.Advertisement_Explanation = Advertisement_Explanation;
 		this.Advertisement_title = Advertisement_title;
+		this.Advertisement_priority = Advertisement_priority;
 	}
+
 
 	public String getAdvertisement_No() {
 		return Advertisement_No;
@@ -59,6 +62,14 @@ public class AdCommodityBeans {
 	public void setAdvertisement_title(String advertisement_title) {
 		Advertisement_title = advertisement_title;
 	}
+	public String getAdvertisement_priority() {
+		return Advertisement_priority;
+	}
+
+	public void setAdvertisement_priority(String advertisement_priority) {
+		Advertisement_priority = advertisement_priority;
+	}
+
 
 	public String getStore_No() {
 		return Store_No;
