@@ -44,7 +44,7 @@ public class DeleteAdvertiseServlet extends HttpServlet {
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            response.sendRedirect("NC.jsp"); // 異常なパラメータの場合
+            response.sendRedirect("StoreLogin.jsp"); // 異常なパラメータの場合
         }
 		
 		

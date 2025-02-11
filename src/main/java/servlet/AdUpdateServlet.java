@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import config.EnvConfig;
 import dao.AdvertisementDao;
 import model.StoreBeans;
 
@@ -57,7 +58,7 @@ public class AdUpdateServlet extends HttpServlet {
             
             // ファイルを保存するパsu
             
-            String uploadPath = getServletContext().getRealPath("/images/");
+            String uploadPath = EnvConfig.get("ADVERTISEMENT_IMG_PATH");
             //String uploadPath = "C:/Users/st20224112/Desktop/work/Advertisement/src/main/webapp/images/";
             
             session.setAttribute("uploadPath", uploadPath);
@@ -69,12 +70,12 @@ public class AdUpdateServlet extends HttpServlet {
             }
             
             // ファイル名をUUIDで重複しないように変更
-            String uniqueFileName = UUID.randomUUID().toString() + "-" + fileName;
-            String filePath = uploadPath + uniqueFileName;
+            String extension = fileName.substring(fileName.lastIndexOf("."));
+            String safeFileName = UUID.randomUUID().toString() + extension;
 
             // ファイル保存
-            filePart.write(filePath);
-            Advertisement_Image = uniqueFileName; // 保存されたファイルパス
+            filePart.write(uploadPath + File.separator + safeFileName);
+            Advertisement_Image = safeFileName; // 保存されたファイルパス
         }else {
         	request.setAttribute("errorMessage", "画像を選択してください。");
             request.getRequestDispatcher("test.jsp").forward(request, response);
@@ -91,7 +92,7 @@ public class AdUpdateServlet extends HttpServlet {
 			dispatcher1.forward(request, response);
         } else {
         	request.setAttribute("errorMessage", "変更できませんでした");
-            request.getRequestDispatcher("test.jsp").forward(request, response);
+            request.getRequestDispatcher("AdvertisementViewServlet").forward(request, response);
         }
     }
 }

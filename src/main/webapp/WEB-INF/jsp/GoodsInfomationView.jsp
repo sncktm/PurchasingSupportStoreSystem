@@ -18,6 +18,7 @@ body{
 }
 	.search-box{
 		margin-bottom: 20px;
+		margin-left: 130px;
 	}
 	input{
 		padding: 10px;
@@ -31,6 +32,7 @@ body{
 		border-collapse: collapse;
 		border-spacing: 0;
 		border: solid 1px #333;
+		margin: 0 auto; /* 中央寄せ */
 	}td{
 		border: solid 1px #333;
 		padding: 5px;
@@ -58,7 +60,9 @@ body{
 	  content: "▲";
 	}
 
-
+.cont{
+	
+}
 </style>
 </head>
 <body>
@@ -86,7 +90,6 @@ body{
             <li class="menu-list">
                 <a href="#">広告管理</a>
                 <ul class="dropdown-lists">
-                    <li class="dropdown-list"><a href="AdselectServlet">広告情報登録</a></li>
                     <li class="dropdown-list"><a href="AdvertisementViewServlet">広告情報一覧</a></li>
                 </ul>
             </li>
@@ -110,6 +113,7 @@ body{
 
 <main>
 <h1 class="title">商品情報一覧</h1>
+<div class="cont">
 <div class="contents">
 	<div class="search-list" id="js-search-list">
 		<div class="search-box">
@@ -132,7 +136,7 @@ body{
 			<tbody class="list">
 				<% for(GoodsInfoBeans bean : goodsList){ %>
 				<tr>
-					<td></td>
+					<td><%= bean.getSales_flag() %></td>
 					<td class="day"><%= bean.getUpdate_date() %></td>
 					<td class="jan"><%= bean.getJan_code() %></td>
 					<td class="goods"><%= bean.getGoods_name() %></td>
@@ -145,6 +149,7 @@ body{
 			</tbody>
 		</table>
 	</div>
+</div>
 </div>
 </main>
 <script>

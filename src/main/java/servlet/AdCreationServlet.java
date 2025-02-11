@@ -79,11 +79,14 @@ public class AdCreationServlet extends HttpServlet {
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
             }
+            
+            
          // ファイル名を安全なものに変更（UUIDを使用）
             String extension = fileName.substring(fileName.lastIndexOf("."));
             String safeFileName = UUID.randomUUID().toString() + extension;
             
-
+            filePart.write(uploadPath + File.separator + safeFileName);
+            
             Advertisement_Image = safeFileName; // 保存されたファイルパス
             System.out.println("保存先のパス" + uploadPath + File.separator + safeFileName);
         }else {
@@ -101,7 +104,7 @@ public class AdCreationServlet extends HttpServlet {
 			dispatcher1.forward(request, response);
 	    }else {
 	    	request.setAttribute("errorMessage", "登録できませんでした");
-            request.getRequestDispatcher("test.jsp").forward(request, response);
+            request.getRequestDispatcher("AdselectServlet").forward(request, response);
 	    	
 	    }
 

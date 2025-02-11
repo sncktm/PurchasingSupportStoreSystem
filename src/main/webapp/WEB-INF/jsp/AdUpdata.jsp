@@ -247,7 +247,6 @@ select {
             <li class="menu-list">
                 <a href="#">広告管理</a>
                 <ul class="dropdown-lists">
-                    <li class="dropdown-list"><a href="AdselectServlet">広告情報登録</a></li>
                     <li class="dropdown-list"><a href="AdvertisementViewServlet">広告情報一覧</a></li>
                 </ul>
             </li>
@@ -324,7 +323,7 @@ select {
                     <select id="ad-type" name="ad-type">
                         <option value="1">店舗</option>
                         <option value="2">商品</option>
-                        <option value="3">タイムセール</option>
+<!--                        <option value="3">タイムセール</option>-->
                     </select>
                 </div>
 

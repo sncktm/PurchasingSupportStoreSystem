@@ -75,7 +75,6 @@ button:focus {
             <li class="menu-list">
                 <a href="#">広告管理</a>
                 <ul class="dropdown-lists">
-                    <li class="dropdown-list"><a href="AdselectServlet">広告情報登録</a></li>
                     <li class="dropdown-list"><a href="AdvertisementViewServlet">広告情報一覧</a></li>
                 </ul>
             </li>
@@ -208,7 +207,7 @@ button:focus {
 	//完了モーダルを閉じる
 	function closeCompletionModal() {
 	  completionModal.style.display = "none";
-	  <% session.removeAttribute("successMessage"); %>  ポップアップ後にメッセージをクリア 
+	  window.location.href = "clearMessageServlet?redirectPage=AdvertisementViewServlet"; // セッションを削除するServletへ遷移
 	}
 </script>
 </body>

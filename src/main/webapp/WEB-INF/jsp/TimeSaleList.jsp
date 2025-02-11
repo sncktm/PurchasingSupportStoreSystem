@@ -97,7 +97,6 @@ ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.
             <li class="menu-list">
                 <a href="#">広告管理</a>
                 <ul class="dropdown-lists">
-                    <li class="dropdown-list"><a href="AdselectServlet">広告情報登録</a></li>
                     <li class="dropdown-list"><a href="AdvertisementViewServlet">広告情報一覧</a></li>
                 </ul>
             </li>
@@ -280,7 +279,7 @@ ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.
 	//完了モーダルを閉じる
 	function closeCompletionModal() {
 	  completionModal.style.display = "none";
-	  <% session.removeAttribute("successMessage"); %>  ポップアップ後にメッセージをクリア 
+	  window.location.href = "clearMessageServlet?redirectPage=TimeSaleListServlet";
 	}
 </script>
 </body>
