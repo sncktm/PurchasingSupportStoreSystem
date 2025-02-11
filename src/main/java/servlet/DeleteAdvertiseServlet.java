@@ -37,6 +37,7 @@ public class DeleteAdvertiseServlet extends HttpServlet {
             int deletedCount = dao.deleteAdvertisement(advertisementNo,advertisementType);
 
             if (deletedCount > 0) {
+            	session.setAttribute("successMessage", "削除しました");
                 response.sendRedirect("AdvertisementViewServlet"); // 削除成功ページへ
             } else {
                 response.sendRedirect("/WEB-INF/jsp/AdStoreDelete.jsp"); // 削除失敗ページへ

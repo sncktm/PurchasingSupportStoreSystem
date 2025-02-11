@@ -83,15 +83,7 @@ public class AdCreationServlet extends HttpServlet {
             String extension = fileName.substring(fileName.lastIndexOf("."));
             String safeFileName = UUID.randomUUID().toString() + extension;
             
-            filePart.write(uploadPath + File.separator + safeFileName);
-//            
-//            // ファイル名をUUIDで重複しないように変更
-//            String uniqueFileName = UUID.randomUUID().toString() + "-" + fileName;
-//            String filePath = uploadPath + uniqueFileName;
-//
-//            // ファイル保存
-//            filePart.write(filePath);
-//            Advertisement_Image = uniqueFileName; // 保存されたファイルパス
+
             Advertisement_Image = safeFileName; // 保存されたファイルパス
             System.out.println("保存先のパス" + uploadPath + File.separator + safeFileName);
         }else {
@@ -108,9 +100,8 @@ public class AdCreationServlet extends HttpServlet {
 	    	RequestDispatcher dispatcher1 = request.getRequestDispatcher("AdvertisementViewServlet");
 			dispatcher1.forward(request, response);
 	    }else {
-	    	
-	    	RequestDispatcher dispatcher1 = request.getRequestDispatcher("/NC.jsp");
-			dispatcher1.forward(request, response);
+	    	request.setAttribute("errorMessage", "登録できませんでした");
+            request.getRequestDispatcher("test.jsp").forward(request, response);
 	    	
 	    }
 

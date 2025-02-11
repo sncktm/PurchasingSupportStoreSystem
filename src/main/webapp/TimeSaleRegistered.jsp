@@ -70,19 +70,7 @@
             gap: 0.25rem;
         }
 
-        table{
-		text-align: center;
-		border-collapse: collapse;
-		border-spacing: 0;
-		border: solid 1px #333;
-		}td{
-			border: solid 1px #333;
-			padding: 5px;
-		}th{
-			background: #fff2cc;
-			border: solid 1px #333;
-			padding: 5px;
-			}
+       
 
         input[type="text"],
         input[type="date"],
@@ -245,7 +233,7 @@
 <main>
     <h1 class="title">タイムセール登録</h1>
     
-   <form class="form-container" action="TimeSaleRegisteredConfirmServlet" method="post">
+   <form id="myForm" class="form-container" action="TimeSaleRegisteredConfirmServlet" method="post">
             <div class="form-header">
                 <div class="timesale-section left-section">
                     <div class="form-group">
@@ -308,7 +296,7 @@
         
         
         
-        <table border="1">
+        <table border="1" class="table-css">
             <tr>
                 <th>適用</th>
                 <th>JANコード</th>
@@ -347,6 +335,15 @@
     </form>
     
 </main>
+<script>
+    document.getElementById("myForm").addEventListener("submit", function() {
+        // idが "Goods_Name"、"Goods_Maker"、"Classification"、"Sales_Price" で始まるすべての input を取得
+        document.querySelectorAll("input[id^='Goods_Name'], input[id^='Goods_Maker'], input[id^='Classification'], input[id^='Sales_Price']").forEach(input => {
+            input.disabled = false; // フォーム送信前に disabled を解除
+        });
+    });
+</script>
+
 <script>
 //ページロード時に繰り返しの状態に応じて表示・非表示を設定
 window.onload = function() {

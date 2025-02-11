@@ -65,7 +65,8 @@ public class TimeSaleRegisteredServlet extends HttpServlet {
         System.out.println("success:" + success2);
         
         if(success2) {
-			 RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/TimeSaleRegisteredcompletion.jsp");
+        	session.setAttribute("successMessage", "登録が完了しました");
+			 RequestDispatcher dispatcher = request.getRequestDispatcher("TimeSaleListServlet");
 		        dispatcher.forward(request, response);
 		}else {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("TimeSaleRegistered.jsp");

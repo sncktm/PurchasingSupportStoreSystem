@@ -96,6 +96,7 @@ public class TimeSaleRegisteredConfirmServlet extends HttpServlet {
             String goods_Name = request.getParameter("Goods_Name" + i);
             String goods_Maker = request.getParameter("Goods_Maker" + i);
             String classification = request.getParameter("Classification" + i);
+            System.out.println("メーカー" + goods_Maker);
 
             // セール価格とタイムセール価格の取得とチェック
             String sales_Price_Str = request.getParameter("Sales_Price" + i);

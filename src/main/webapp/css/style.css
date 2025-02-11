@@ -36,10 +36,12 @@ main{
           border-radius: 30px;
           cursor: pointer;
           font-size: 16px;
-          margin: 20px 0;
           text-decoration: none;
+		  transition: background-color 0.3s, transform 0.2s;
         }
- 
+		.button:hover{
+			transform: scale(1.05);
+		}
 
 /*確定ボタン(オレンジ)*/
 .confirmed-button{
@@ -92,7 +94,6 @@ main{
 .modal-content {
   background-color: white;
   padding: 2rem;
-  border: 1px solid;
   border-radius: 4px;
   width: 90%;
   max-width: 500px;
@@ -109,6 +110,25 @@ main{
   text-align: center;
 }
 
+
+/*テーブル*/
+.table-css{
+	width: 100%;
+	text-align: center;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: solid 1px #333;
+	background-color: #fff;
+}
+.table-css td{
+	border: solid 1px #333;
+	padding: 5px;
+}
+.table-css th{
+	background: #fff2cc;
+	border: solid 1px #333;
+	padding: 5px;
+}
 	
 	
 

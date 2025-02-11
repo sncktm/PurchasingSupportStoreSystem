@@ -86,10 +86,12 @@ public class AdUpdateServlet extends HttpServlet {
 
         // レスポンスの設定
         if (updateResult) {
+        	session.setAttribute("successMessage", "変更しました");
         	RequestDispatcher dispatcher1 = request.getRequestDispatcher("AdvertisementViewServlet");
 			dispatcher1.forward(request, response);
         } else {
-            response.getWriter().append("Error occurred while updating the advertisement.");
+        	request.setAttribute("errorMessage", "変更できませんでした");
+            request.getRequestDispatcher("test.jsp").forward(request, response);
         }
     }
 }

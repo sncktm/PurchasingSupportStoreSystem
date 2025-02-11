@@ -7,6 +7,7 @@ StoreBeans loginStore = (StoreBeans) session.getAttribute("loginStore");
 <%
 ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.getAttribute("TimeSaleListArray");
 %>
+<% String successMessage = (String) session.getAttribute("successMessage"); %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -16,20 +17,7 @@ ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.
     <style>
 
         
-        table{
-        width: 100%;
-		text-align: center;
-		border-collapse: collapse;
-		border-spacing: 0;
-		border: solid 1px #333;
-		}td{
-			border: solid 1px #333;
-			padding: 5px;
-		}th{
-			background: #fff2cc;
-			border: solid 1px #333;
-			padding: 5px;
-			}
+       
 		.time{
 			
 		}
@@ -76,6 +64,10 @@ ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.
 		    border: none;
 		    cursor: pointer;
 		    
+		}
+		a{
+			color: #fff;
+			border: none;
 		}
      
     </style>
@@ -132,7 +124,7 @@ ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.
         
         <h1 class="title">タイムセール一覧</h1>
 
-		<table>
+		<table class="table-css">
 			<tr>
 				<th>適用</th>
 				<th>タイムセール名</th>
@@ -267,6 +259,29 @@ ArrayList<TimeSaleBeans> TimeSaleListArray = (ArrayList<TimeSaleBeans>) session.
             <button class="delete-button button">削除</button>
         </div>
     </div>
+    
+    	<!-- 完了通知モーダル -->
+    <div id="completionModal" class="modal">
+      <div class="modal-content completion">
+        <h2><%= successMessage %></h2>
+        <button onclick="closeCompletionModal()" class="button confirmed-button">閉じる</button>
+      </div>
+    </div>
 </main>
+<script>
+	const completionModal = document.getElementById('completionModal');
+	
+	<% System.out.println("メッセージ" + successMessage); %>
+
+	<% if (successMessage != null && !successMessage.isEmpty()) { %>
+		completionModal.style.display = "flex";
+	<% } %>
+	
+	//完了モーダルを閉じる
+	function closeCompletionModal() {
+	  completionModal.style.display = "none";
+	  <% session.removeAttribute("successMessage"); %>  ポップアップ後にメッセージをクリア 
+	}
+</script>
 </body>
 </html>

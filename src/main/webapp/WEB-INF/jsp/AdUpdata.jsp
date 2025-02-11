@@ -28,7 +28,7 @@ body {
 /* コンテナスタイル */
 .container {
 	max-width: 800px;
-	margin: 40px auto;
+	margin: auto;
 	padding: 20px;
 	background-color: #fff;
 	border-radius: 10px;
@@ -101,7 +101,7 @@ button {
 	padding: 10px 20px; /* 内側の余白 */
 	font-size: 16px; /* 文字サイズ */
 	border: none; /* 枠線をなくす */
-	border-radius: 5px; /* 角の丸み */
+	border-radius: 30px; /* 角の丸み */
 	cursor: pointer; /* カーソルをポインターに */
 	text-align: center; /* テキスト中央揃え */
 	transition: background-color 0.3s; /* ホバー時のアニメーション */
@@ -111,10 +111,9 @@ button {
 
 /* ボタンの配置用コンテナ */
 .button-container {
-	display: flex; /* ボタンを横並びに */
-	justify-content: center; /* 中央揃え */
-	gap: 20px; /* ボタン間の余白 */
-	margin-top: 20px; /* 上の余白 */
+    display: flex; /* ボタンを横並びに */
+    justify-content: center; /* 中央揃え */
+    gap: 20px; /* ボタン間の余白 */
 }
 
 /* アップロードボタン */
@@ -127,35 +126,7 @@ button.upload:hover {
 	background-color: #005fa3;
 }
 
-/* 確認ボタン */
-button.confirm {
-	background-color: #FFD700; /* 黄色 */
-	color: #333333;
-}
 
-button.confirm:hover {
-	background-color: #e6c100;
-}
-
-/* 戻るボタン */
-button.back {
-	background-color: #6C757D; /* グレー */
-	color: #ffffff;
-}
-
-button.back:hover {
-	background-color: #5a6268;
-}
-
-/* 変更ボタン */
-button.change {
-	background-color: #FF7F50; /* コーラル */
-	color: #ffffff;
-}
-
-button.change:hover {
-	background-color: #e06e48;
-}
 
 /* ポップアップのオーバーレイ背景 */
 .popup-overlay {
@@ -244,6 +215,11 @@ select {
 	background-color: #fff; /* 背景色を統一 */
 	appearance: none; /* ブラウザ依存のデザインを無効化 */
 }
+
+.button{
+       width:15%;
+       	margin: 30px 50px;
+       }
 </style>
 </head>
 <body>
@@ -292,7 +268,8 @@ select {
     </div>
 </div>
 </header>
-
+<main>
+<h1 class="title">広告変更</h1>
 	<form class="product-form" method="post" action="AdupdateServlet"
 		enctype="multipart/form-data">
 
@@ -351,7 +328,7 @@ select {
                     </select>
                 </div>
 
-				<span class="label">テキスト</span>
+				<span class="label">説明文</span>
                 <div class="form-row">
                     <input type="text" id="ad-text" name="ad-text" value="<%= store.getAdvertisement_Explanation() %>" required>
                 </div>
@@ -431,7 +408,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							<select id="ad-priority" name="ad-priority">
 								<option value="01">大</option>
 								<option value="02">中</option>
-								<option value="03">タイムセール</option>
+								<option value="03">小</option>
 							</select>
 						</div>
 						<%
@@ -449,7 +426,6 @@ document.addEventListener("DOMContentLoaded", function () {
 							<input type="file" id="file-upload" name="image" accept="image/*" style="display: none;">
 							<button type="button" class="upload"
 								onclick="document.getElementById('file-upload').click();">アップロード</button>
-							<button type="button" class="confirm">確認</button>
 						</div>
 
 					</div>
@@ -511,10 +487,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 		</div>
 		<div class="button-container">
-			<button type="button" class="back" onclick="history.back();">戻る</button>
-			<button type="submit" class="change">変更</button>
+			<button type="button" class="button cancel-button" onclick="history.back();">戻る</button>
+			<button type="submit" class="button confirmed-button">変更</button>
 		</div>
 	</form>
+</main>
 	<script>
 	document.addEventListener("DOMContentLoaded", function () {
 	    const goodsSelect = document.getElementById("goods");

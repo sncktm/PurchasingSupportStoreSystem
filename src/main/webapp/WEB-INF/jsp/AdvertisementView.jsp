@@ -10,25 +10,11 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="css/style.css?v=1.0">
 <style>
-
-
-
 /* 現在の広告セクション */
-.ad-management {
-    margin-bottom: 40px;
-    background-color: #f8f9fa;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
+<!--.ad-management {-->
 
-.ad-management h1 {
-    text-align: center;
-    font-size: 32px;
-    color: #333;
-    margin-bottom: 20px;
-    font-weight: 600;
-}
+<!--    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);-->
+<!--}-->
 
 .info {
     color: #d9534f;
@@ -37,105 +23,30 @@
     font-weight: 500;
 }
 
-/* 広告テーブルのデザイン */
-.ad-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    overflow: hidden;
-}
 
-.ad-table thead {
-    background-color: #343a40;
+.btn {
     color: white;
-}
-
-.ad-table th, .ad-table td {
-    padding: 16px 24px;
-    border: 1px solid #ddd;
-    text-align: center;
-    font-size: 16px;
-    color: #495057;
-}
-
-.ad-table th {
-    font-weight: bold;
-    background-color: #f8f9fa;
-}
-
-.ad-table td {
-    background-color: #fff;
-}
-
-.ad-table tr:hover {
-    background-color: #f1f1f1;
-    cursor: pointer;
-}
-
-.ad-table button {
-    padding: 8px 20px;
-    background-color: #007bff;
-    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 30px;
     border: none;
-    border-radius: 5px;
-    font-size: 14px;
+    cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
+    margin: 5px 0;
 }
 
-.ad-table button:hover {
-    background-color: #0056b3;
+.btn:hover {
     transform: scale(1.05);
 }
 
 /* ボタンのデザイン調整 */
-.new-create {
-    padding: 15px 40px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
-    transition: background-color 0.3s, transform 0.2s;
-    display: block;
-    margin: 0 auto;
-}
-
-.new-create:hover {
-    background-color: #218838;
-    transform: scale(1.05);
+.btn-new{
+	width: 20%;
+	margin: 40px;
 }
 
 button:focus {
     outline: none;
 }
-
-/* 「現在の広告」セクションタイトル */
-.ad-management h1 {
-    text-align: center;
-    font-size: 36px; /* 文字を大きくしてインパクトを増す */
-    color: #007bff; /* 強調するために青色に変更 */
-    font-weight: 700; /* 太字 */
-    letter-spacing: 2px; /* 文字間隔を広げて洗練させる */
-    margin-bottom: 20px;
-    text-transform: uppercase; /* 上記のデザインの強調効果 */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 文字に影をつけて立体感を強調 */
-    border-bottom: 3px solid #007bff; /* 下線を追加 */
-    padding-bottom: 10px; /* 下線との間隔を調整 */
-    transition: all 0.3s ease; /* アニメーション効果 */
-}
-
-.ad-management h1:hover {
-    color: #0056b3; /* ホバー時に色が変わる */
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3); /* 影の強調 */
-    transform: scale(1.05); /* 少し拡大するアニメーション */
-}
-
-
-
-
-
 </style>
 
 </head>
@@ -205,9 +116,9 @@ button:focus {
 <main>
 	<h1 class="title">広告一覧</h1>
 		<div class="ad-management">
-
+			
 			<div class="info">あと ${dataCount} 個登録可能</div>
-			<table class="ad-table">
+			<table class="ad-table table-css">
 				<thead>
 					<tr>
 						<th>広告名</th>
@@ -231,19 +142,19 @@ button:focus {
 							value="<%= ad.getAdvertisement_No() %>"> <input
 							type="hidden" name="Advertisement_type"
 							value="<%= ad.getAdvertisement_type() %>">
-							<button type="submit" name="action" value="details" class="btn">詳細</button>
+							<button type="submit" name="action" value="details" class="btn detail-button">詳細</button>
 						</td>
 						<td><input type="hidden" name="Advertisement_No"
 							value="<%= ad.getAdvertisement_No() %>"> <input
 							type="hidden" name="Advertisement_type"
 							value="<%= ad.getAdvertisement_type() %>">
-							<button type="submit" name="action" value="edit" class="btn">変更</button>
+							<button type="submit" name="action" value="edit" class="btn confirmed-button">変更</button>
 						</td>
 						<td><input type="hidden" name="Advertisement_No"
 							value="<%= ad.getAdvertisement_No() %>"> <input
 							type="hidden" name="Advertisement_type"
 							value="<%= ad.getAdvertisement_type() %>">
-							<button type="submit" name="action" value="delete" class="btn">削除</button>
+							<button type="submit" name="action" value="delete" class="btn delete-button">削除</button>
 						</td>
 					</tr>
 					</form>
@@ -260,9 +171,17 @@ button:focus {
 
 				</tbody>
 			</table>
-			<form action="AdselectServlet" method="get" enctype="multipart/form-data">
+			<form action="AdselectServlet" method="get"
+				enctype="multipart/form-data">
+				<% 
+    			Integer dataCount = (Integer) request.getAttribute("dataCount"); 
+    			if (dataCount == null) {
+        			dataCount = 0; // デフォルト値を設定
+    			}
+				%>
 				<center>
-					<button class="new-create">新規作成</button>
+					<button class="button cancel-button btn-new" <% if (dataCount <= 0) { %> disabled
+						<% } %>>新規作成</button>
 				</center>
 			</form>
 
@@ -273,7 +192,7 @@ button:focus {
     <div id="completionModal" class="modal">
       <div class="modal-content completion">
         <h2><%= successMessage %></h2>
-        <button onclick="closeCompletionModal()" class="class="button confirmed-button"">閉じる</button>
+        <button onclick="closeCompletionModal()" class="button confirmed-button">閉じる</button>
       </div>
     </div>
 </main>
